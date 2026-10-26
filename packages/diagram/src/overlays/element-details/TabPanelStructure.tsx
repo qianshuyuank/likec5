@@ -2,6 +2,7 @@ import type { LikeC4Model } from '@likec4/core/model'
 import { Alert, Anchor, Box, Pill, Text, Tree, useTree } from '@mantine/core'
 import { IconInfoCircle } from '@tabler/icons-react'
 import { type ReactNode, useEffect, useMemo } from 'react'
+import { useDiagramTranslation } from '../../i18n'
 import * as css from './TabPanelStructure.css'
 
 type StructureElement = LikeC4Model.Element | LikeC4Model.DeploymentNode | LikeC4Model.DeployedInstance
@@ -43,6 +44,7 @@ const infoIcon = <IconInfoCircle />
 export function TabPanelStructure({
   element,
 }: TabPanelStructureProps) {
+  const t = useDiagramTranslation()
   const tree = useTree({
     multiple: false,
   })
@@ -72,7 +74,7 @@ export function TabPanelStructure({
     }
     if (current.children.length === 0) {
       current.children.push(
-        messageNode(<Pill radius={'sm'}>no nested</Pill>),
+        messageNode(<Pill radius={'sm'}>{t.elementDetails.noNested}</Pill>),
       )
     }
     let ancestor = [...element.ancestors()].reduce((acc, parent) => ({
@@ -86,7 +88,7 @@ export function TabPanelStructure({
     return [
       ancestor,
     ]
-  }, [element])
+  }, [element, t])
 
   useEffect(() => {
     tree.expandAllNodes()

@@ -3,6 +3,7 @@ import { Box } from '@likec4/styles/jsx'
 import { hstack } from '@likec4/styles/patterns'
 import { Menu, Tooltip, UnstyledButton } from '@mantine/core'
 import { IconChevronDown, IconInfoCircle } from '@tabler/icons-react'
+import { useDiagramTranslation } from '../../i18n'
 import { stopPropagation } from '../../utils'
 
 export function CompareActionsMenu({
@@ -14,6 +15,7 @@ export function CompareActionsMenu({
   onApplyLatestToManual?: undefined | (() => void)
   onResetManualLayout: () => void
 }) {
+  const t = useDiagramTranslation()
   return (
     <Menu
       withinPortal={false} // if we render menu in portal, NavigationPanelDropdown receives onMouseLeave event
@@ -38,7 +40,7 @@ export function CompareActionsMenu({
             }),
           )}
         >
-          <Box>Actions</Box>
+          <Box>{t.navigation.actions}</Box>
           <IconChevronDown size={12} stroke={2} opacity={0.7} />
         </UnstyledButton>
       </Menu.Target>
@@ -66,10 +68,10 @@ export function CompareActionsMenu({
               </Tooltip>
             )}
         >
-          Sync with latest
-          {!onApplyLatestToManual && <Box textStyle={'xs'}>view type is changed</Box>}
+          {t.navigation.syncWithLatest}
+          {!onApplyLatestToManual && <Box textStyle={'xs'}>{t.navigation.viewTypeChanged}</Box>}
         </Menu.Item>
-        <Menu.Item onClick={onResetManualLayout}>Reset layout</Menu.Item>
+        <Menu.Item onClick={onResetManualLayout}>{t.navigation.resetLayout}</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   )

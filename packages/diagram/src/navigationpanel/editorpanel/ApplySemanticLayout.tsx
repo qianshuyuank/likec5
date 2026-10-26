@@ -2,6 +2,7 @@ import { IconSparkles } from '@tabler/icons-react'
 import { memo } from 'react'
 import { useDiagram } from '../../hooks/useDiagram'
 import { useEditorActorStateHasTag } from '../../hooks/useEditorActor'
+import { useDiagramTranslation } from '../../i18n'
 import { PanelActionIcon } from '../_common'
 import { Tooltip } from './_common'
 
@@ -11,9 +12,10 @@ export const ApplySemanticLayout = memo<{
   visible = true,
 }) => {
   const diagram = useDiagram()
+  const t = useDiagramTranslation()
   const isBusy = useEditorActorStateHasTag('ai-semantic-layout')
   return (
-    <Tooltip label="Semantic Layout with AI">
+    <Tooltip label={t.navigation.semanticLayoutWithAi}>
       <PanelActionIcon
         loading={isBusy}
         initial={{

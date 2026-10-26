@@ -26,6 +26,7 @@ import { forwardRef, useMemo, useState } from 'react'
 import { useCurrentViewRouting } from '../../hooks/useCurrentView'
 import { selectDiagramContext, useDiagram, useDiagramSelector } from '../../hooks/useDiagram'
 import { useMantinePortalProps } from '../../hooks/useMantinePortalProps'
+import { useDiagramTranslation } from '../../i18n'
 import { PanelActionIcon } from '../_common'
 import { Tooltip } from './_common'
 import * as css from './styles'
@@ -40,6 +41,7 @@ const selector = selectDiagramContext(
 )
 
 export const ChangeAutoLayoutButton = () => {
+  const t = useDiagramTranslation()
   const diagram = useDiagram()
   const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null)
   const [controlsRefs, setControlsRefs] = useState<Record<AutoLayoutDirection, HTMLButtonElement | null>>({} as any)
@@ -111,7 +113,7 @@ export const ChangeAutoLayoutButton = () => {
       }}
       {...portalProps}>
       <PopoverTarget>
-        <Tooltip label="Layout options">
+        <Tooltip label={t.navigation.layoutOptions}>
           <Box>
             <PanelActionIcon>
               <IconLayoutDashboard />
@@ -129,36 +131,36 @@ export const ChangeAutoLayoutButton = () => {
                 className={css.autolayoutIndicator}
               />
               <Box mb={10}>
-                <Text inline fz={'xs'} c={'dimmed'} fw={500}>Auto layout:</Text>
+                <Text inline fz={'xs'} c={'dimmed'} fw={500}>{t.navigation.autoLayout}</Text>
               </Box>
               <Flex gap={2} wrap={'wrap'} justify={'stretch'} maw={160}>
                 <UnstyledButton
                   className={css.autolayoutButton}
                   ref={setControlRef('TB')}
                   onClick={setAutoLayout('TB')}>
-                  Top-Bottom
+                  {t.navigation.directionTB}
                 </UnstyledButton>
                 <UnstyledButton
                   className={css.autolayoutButton}
                   ref={setControlRef('BT')}
                   onClick={setAutoLayout('BT')}>
-                  Bottom-Top
+                  {t.navigation.directionBT}
                 </UnstyledButton>
                 <UnstyledButton
                   className={css.autolayoutButton}
                   ref={setControlRef('LR')}
                   onClick={setAutoLayout('LR')}>
-                  Left-Right
+                  {t.navigation.directionLR}
                 </UnstyledButton>
                 <UnstyledButton
                   className={css.autolayoutButton}
                   ref={setControlRef('RL')}
                   onClick={setAutoLayout('RL')}>
-                  Right-Left
+                  {t.navigation.directionRL}
                 </UnstyledButton>
               </Flex>
               <Box my={10}>
-                <Text inline fz={'xs'} c={'dimmed'} fw={500}>Spacing:</Text>
+                <Text inline fz={'xs'} c={'dimmed'} fw={500}>{t.navigation.spacing}</Text>
               </Box>
               <SpacingSliders
                 ref={ref}
@@ -176,17 +178,17 @@ export const ChangeAutoLayoutButton = () => {
             className={css.autolayoutIndicator}
           />
           <Box mt={isManualLayout ? 0 : 10} mb={10}>
-            <Text inline fz={'xs'} c={'dimmed'} fw={500}>Routing:</Text>
+            <Text inline fz={'xs'} c={'dimmed'} fw={500}>{t.navigation.routing}</Text>
           </Box>
           <Flex gap={2} wrap={'wrap'} justify={'stretch'} maw={160}>
             <UnstyledButton
               className={css.autolayoutButton}
               ref={routingRef.spline}
               onClick={setRouting('spline')}>
-              Spline
+              {t.navigation.spline}
             </UnstyledButton>
             <UnstyledButton className={css.autolayoutButton} ref={routingRef.ortho} onClick={setRouting('ortho')}>
-              Ortho
+              {t.navigation.ortho}
             </UnstyledButton>
           </Flex>
         </Box>

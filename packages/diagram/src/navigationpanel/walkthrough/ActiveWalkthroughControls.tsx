@@ -11,6 +11,7 @@ import * as m from 'motion/react-m'
 import { isTruthy } from 'remeda'
 import { useMantinePortalProps } from '../../hooks'
 import { useDiagram, useDiagramContext } from '../../hooks/useDiagram'
+import { useDiagramTranslation } from '../../i18n'
 import { TriggerWalkthroughButton } from './DynamicViewControls'
 
 const PrevNextButton = Button.withProps({
@@ -53,6 +54,7 @@ const ParallelFrame = () => {
 }
 
 export function ActiveWalkthroughControls() {
+  const t = useDiagramTranslation()
   const diagram = useDiagram()
   const {
     isParallel,
@@ -85,7 +87,7 @@ export function ActiveWalkthroughControls() {
         }}
         rightSection={<IconPlayerStopFilled size={10} />}
       >
-        Stop
+        {t.navigation.stop}
       </TriggerWalkthroughButton>
 
       <PrevNextButton
@@ -94,7 +96,7 @@ export function ActiveWalkthroughControls() {
         onClick={() => diagram.walkthroughStep('prev')}
         leftSection={<IconPlayerSkipBackFilled size={10} />}
       >
-        Previous
+        {t.navigation.previous}
       </PrevNextButton>
 
       <Badge
@@ -112,7 +114,7 @@ export function ActiveWalkthroughControls() {
               fontSize: 'xxs',
               display: isParallel ? 'block' : 'none',
             })}>
-            parallel
+            {t.navigation.parallel}
           </m.div>
         }
         className={css({
@@ -128,7 +130,7 @@ export function ActiveWalkthroughControls() {
         onClick={() => diagram.walkthroughStep('next')}
         rightSection={<IconPlayerSkipForwardFilled size={10} />}
       >
-        Next
+        {t.navigation.next}
       </PrevNextButton>
       {isParallel && <ParallelFrame key="parallel-frame" />}
     </AnimatePresence>

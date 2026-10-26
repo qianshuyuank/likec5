@@ -56,6 +56,12 @@ export interface ComputedNode<A extends AnyAux = AnyAux>
    */
   deploymentRef?: aux.DeploymentFqn<A>
   title: string
+  locales?: Readonly<Record<string, {
+    title?: string
+    summary?: scalar.MarkdownOrString
+    description?: scalar.MarkdownOrString
+    technology?: string
+  }>>
   /**
    * Description of the node
    * either summary or description
@@ -109,6 +115,14 @@ export interface ComputedEdge<A extends AnyAux = AnyAux> extends aux.WithOptiona
   tail?: RelationshipArrowType
   // Link to dynamic view
   navigateTo?: aux.StrictViewId<A> | null
+  locales?: Readonly<
+    Record<string, {
+      label?: string
+      title?: string
+      description?: scalar.MarkdownOrString
+      technology?: string
+    }>
+  >
   /**
    * If this edge is derived from custom relationship predicate
    */

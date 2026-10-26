@@ -25,6 +25,7 @@ import { ModelDiffPanel, useCompareView } from '../components/model-diff/ModelDi
 import { NotFound } from '../components/NotFound'
 import { headerOps } from '../components/view-page/state'
 import { useCurrentProject, useCurrentView } from '../hooks'
+import { useActiveLocale } from '../i18n'
 import { useRelationshipBrowserScope } from '../relationship-browser/scope'
 
 export function ViewReact() {
@@ -33,6 +34,7 @@ export function ViewReact() {
   const [view, setLayoutType] = useCurrentView()
   const [relationshipBrowserScope, setRelationshipBrowserScope] = useRelationshipBrowserScope(project)
   const model = useLikeC4Model()
+  const activeLocale = useActiveLocale()
   const { dynamic } = useSearch({
     from: '__root__',
   })
@@ -66,6 +68,7 @@ export function ViewReact() {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <LikeC4Diagram
+        locale={activeLocale}
         view={compareView ?? view}
         zoomable
         pannable

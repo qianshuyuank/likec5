@@ -16,6 +16,7 @@ import { forwardRef, memo, useRef } from 'react'
 import { isTruthy } from 'remeda'
 import { PortalToContainer } from '../custom'
 import { useDiagram } from '../hooks/useDiagram'
+import { useDiagramTranslation } from '../i18n'
 import { Overlay } from '../overlays/overlay/Overlay'
 import { ElementsColumn } from './components/ElementsColumn'
 import { PickView } from './components/PickView'
@@ -150,6 +151,7 @@ function SearchOverlayBody({ searchActorRef }: { searchActorRef: SearchActorRef 
 export const SearchPanelContent = forwardRef<HTMLDivElement>((_, ref) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const { pickViewFor } = useSearchContext()
+  const t = useDiagramTranslation()
 
   return (
     <Box ref={useMergedRef(ref, contentRef)} display={'contents'}>
@@ -167,10 +169,10 @@ export const SearchPanelContent = forwardRef<HTMLDivElement>((_, ref) => {
       </Group>
       <Grid>
         <GridCol span={6}>
-          <Title component={'div'} order={6} c="dimmed" pl="md">Elements</Title>
+          <Title component={'div'} order={6} c="dimmed" pl="md">{t.search.elements}</Title>
         </GridCol>
         <GridCol span={6}>
-          <Title component={'div'} order={6} c="dimmed" pl="sm">Views</Title>
+          <Title component={'div'} order={6} c="dimmed" pl="sm">{t.search.views}</Title>
         </GridCol>
       </Grid>
       <Grid

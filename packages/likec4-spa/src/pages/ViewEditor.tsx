@@ -15,6 +15,7 @@ import { ModelDiffPanel, useCompareView } from '../components/model-diff/ModelDi
 import { NotFound } from '../components/NotFound'
 import { useLikeC4ModelAtom } from '../context/safeCtx'
 import { useCurrentProject, useCurrentView } from '../hooks'
+import { useActiveLocale } from '../i18n'
 import { useRelationshipBrowserScope } from '../relationship-browser/scope'
 import { FocusElementFromUrl, ListenForDiagramStateChanges, OpenRelationshipBrowserFromUrl } from './ViewReact'
 
@@ -26,6 +27,7 @@ export function ViewEditor() {
   const $likec4model = useLikeC4ModelAtom()
   const { dynamic } = useSearch({ strict: false })
   const compareView = useCompareView(view?.id)
+  const activeLocale = useActiveLocale()
 
   const onNavigateTo = useCallbackRef((viewId: string) => {
     void navigate({
@@ -50,6 +52,7 @@ export function ViewEditor() {
 
   const diagram = (
     <LikeC4Diagram
+      locale={activeLocale}
       view={compareView ?? view}
       zoomable
       pannable

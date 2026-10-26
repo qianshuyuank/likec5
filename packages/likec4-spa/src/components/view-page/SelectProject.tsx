@@ -5,8 +5,10 @@ import { Button, Menu, MenuDivider, MenuDropdown, MenuItem, MenuTarget, ScrollAr
 import { IconChevronDown } from '@tabler/icons-react'
 import { Link } from '@tanstack/react-router'
 import { useCurrentProject } from '../../hooks'
+import { useI18n } from '../../i18n'
 
 export function SelectProject() {
+  const i18n = useI18n()
   const projects = useLikeC4Projects()
   const currentProject = useCurrentProject()
 
@@ -47,7 +49,7 @@ export function SelectProject() {
             />
           )}
         >
-          Overview
+          {i18n.header.overview}
         </MenuItem>
         <MenuDivider />
         <ScrollArea.Autosize mah={'calc(100cqh - 170px)'}>

@@ -16,11 +16,12 @@ import {
   type ParsedAstExtendRelation,
   type ParsedAstRelation,
   ast,
+  parseMarkdownAsString,
   toRelationshipStyle,
 } from '../../ast'
 import { stringHash } from '../../utils/stringHash'
 import { relationFingerprint } from '../relationFingerprint'
-import { parseInlineTitleKeepingEscapedSlash, parseTitleKeepingEscapedSlash } from './Base'
+import { parseInlineTitleKeepingEscapedSlash, parseTitleKeepingEscapedSlash, removeIndent, toSingleLine } from './Base'
 import type { WithExpressionV2 } from './FqnRefParser'
 
 export type WithModel = ReturnType<typeof ModelParser>
@@ -103,15 +104,22 @@ export function ModelParser<TBase extends WithExpressionV2>(B: TBase) {
 
       let [_title, _summary, _technology] = astNode.props ?? []
 
+      const elementStringProps = pipe(
+        astNode.body?.props ?? [],
+        filter(isValid),
+        filter(ast.isElementStringProperty),
+      )
+
       const bodyProps = {
         ...pipe(
-          astNode.body?.props ?? [],
-          filter(isValid),
-          filter(ast.isElementStringProperty),
+          elementStringProps,
+          filter(p => !p.lang),
           mapToObj(p => [p.key, p.value as ast.MarkdownOrString | undefined]),
         ),
         ...this.descriptionFileOf(astNode.body?.props),
       }
+
+      const locales = this.parseLocales(elementStringProps)
 
       const { title, ...descAndTech } = this.parseBaseProps(bodyProps, {
         title: isDefined(_title)
@@ -131,6 +139,7 @@ export function ModelParser<TBase extends WithExpressionV2>(B: TBase) {
         links: this.parseLinks(astNode.body),
         ...descAndTech,
         style,
+        locales,
       })
     }
 
@@ -226,14 +235,42 @@ export function ModelParser<TBase extends WithExpressionV2>(B: TBase) {
       const metadata = this.getMetadata(astNode.body?.props.find(ast.isMetadataProperty))
       const astPath = this.getAstNodePath(astNode)
 
+      const relationStringProps = pipe(
+        astNode.body?.props ?? [],
+        filter(ast.isRelationStringProperty),
+        filter(p => isTruthy(p.value)),
+      )
+
       const bodyProps = {
         ...pipe(
-          astNode.body?.props ?? [],
-          filter(ast.isRelationStringProperty),
-          filter(p => isTruthy(p.value)),
+          relationStringProps,
+          filter(p => !p.lang),
           mapToObj(p => [p.key, p.value as ast.MarkdownOrString | undefined]),
         ),
         ...this.descriptionFileOf(astNode.body?.props),
+      }
+
+      const locales: Record<string, { title?: string; description?: c4.MarkdownOrString; technology?: string }> = {}
+      for (const p of relationStringProps) {
+        if (p.lang) {
+          locales[p.lang] ??= {}
+          if (p.key === 'title') {
+            const parsed = removeIndent(parseMarkdownAsString(p.value))
+            if (parsed) {
+              locales[p.lang]!.title = parsed
+            }
+          } else if (p.key === 'description') {
+            const parsed = this.parseMarkdownOrString(p.value)
+            if (parsed) {
+              locales[p.lang]!.description = parsed
+            }
+          } else if (p.key === 'technology') {
+            const parsed = toSingleLine(removeIndent(parseMarkdownAsString(p.value)))
+            if (parsed) {
+              locales[p.lang]!.technology = parsed
+            }
+          }
+        }
       }
 
       const navigateTo = pipe(
@@ -272,6 +309,7 @@ export function ModelParser<TBase extends WithExpressionV2>(B: TBase) {
         description,
         technology,
         ...toRelationshipStyle(styleProp?.props, isValid),
+        locales: isEmpty(locales) ? undefined : locales,
       })
     }
   }

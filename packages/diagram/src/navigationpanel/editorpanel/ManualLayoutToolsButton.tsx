@@ -22,6 +22,7 @@ import { memo, useState } from 'react'
 import type { MouseEventHandler, ReactNode } from 'react'
 import { useDiagram } from '../../hooks/useDiagram'
 import { useMantinePortalProps } from '../../hooks/useMantinePortalProps'
+import { useDiagramTranslation } from '../../i18n'
 import { PanelActionIcon } from '../_common'
 import { Tooltip } from './_common'
 
@@ -56,6 +57,7 @@ export function manualLayoutTooltipProps(isPopoverOpen: boolean): Pick<TooltipPr
 }
 
 export const ManualLayoutToolsButton = memo(() => {
+  const t = useDiagramTranslation()
   const diagram = useDiagram()
   const portalProps = useMantinePortalProps()
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
@@ -71,7 +73,7 @@ export const ManualLayoutToolsButton = memo(() => {
       ]}
       {...portalProps}>
       <PopoverTarget>
-        <Tooltip label="Manual layouting tools" {...manualLayoutTooltipProps(isPopoverOpen)}>
+        <Tooltip label={t.navigation.manualLayoutTools} {...manualLayoutTooltipProps(isPopoverOpen)}>
           <Box>
             <PanelActionIcon>
               <IconLayoutCollage />
@@ -87,63 +89,63 @@ export const ManualLayoutToolsButton = memo(() => {
           pointerEvents: 'all',
         })}>
         <Action
-          label="Align in columns"
+          label={t.navigation.alignColumns}
           icon={<IconLayoutBoardSplit />}
           onClick={e => {
             e.stopPropagation()
             diagram.align('Column')
           }} />
         <Action
-          label="Align left"
+          label={t.navigation.alignLeft}
           icon={<IconLayoutAlignLeft />}
           onClick={e => {
             e.stopPropagation()
             diagram.align('Left')
           }} />
         <Action
-          label="Align center"
+          label={t.navigation.alignCenter}
           icon={<IconLayoutAlignCenter />}
           onClick={e => {
             e.stopPropagation()
             diagram.align('Center')
           }} />
         <Action
-          label="Align right"
+          label={t.navigation.alignRight}
           icon={<IconLayoutAlignRight />}
           onClick={e => {
             e.stopPropagation()
             diagram.align('Right')
           }} />
         <Action
-          label="Align in rows"
+          label={t.navigation.alignRows}
           icon={<IconLayoutBoardSplit style={{ transform: 'rotate(90deg)' }} />}
           onClick={e => {
             e.stopPropagation()
             diagram.align('Row')
           }} />
         <Action
-          label="Align top"
+          label={t.navigation.alignTop}
           icon={<IconLayoutAlignTop />}
           onClick={e => {
             e.stopPropagation()
             diagram.align('Top')
           }} />
         <Action
-          label="Align middle"
+          label={t.navigation.alignMiddle}
           icon={<IconLayoutAlignMiddle />}
           onClick={e => {
             e.stopPropagation()
             diagram.align('Middle')
           }} />
         <Action
-          label="Align bottom"
+          label={t.navigation.alignBottom}
           icon={<IconLayoutAlignBottom />}
           onClick={e => {
             e.stopPropagation()
             diagram.align('Bottom')
           }} />
         <Action
-          label="Reset all control points"
+          label={t.navigation.resetControlPoints}
           icon={<IconRouteOff />}
           onClick={e => {
             e.stopPropagation()

@@ -53,6 +53,10 @@ export class EdgeModel<A extends Any = Any, V extends ProcessedView<A> = $View<A
     return RichText.memoize(this, 'description', this.$edge.description)
   }
 
+  get locales(): this['$edge']['locales'] | undefined {
+    return this.$edge.locales
+  }
+
   get technology(): string | null {
     return this.$edge.technology ?? null
   }

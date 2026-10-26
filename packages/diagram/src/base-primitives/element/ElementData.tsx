@@ -21,6 +21,7 @@ import { isTruthy } from 'remeda'
 import type { MergeExclusive } from 'type-fest'
 import { IconRenderer } from '../../context/IconRenderer'
 import { useLikeC4Styles } from '../../hooks/useLikeC4Styles'
+import { useDiagramLocale } from '../../i18n'
 import { Markdown } from '../Markdown'
 
 type RequiredData = {
@@ -34,6 +35,17 @@ type RequiredData = {
   icon?: string | null
   width?: number | undefined
   height?: number | undefined
+  locales?:
+    | Record<
+      string,
+      {
+        title?: string | undefined
+        technology?: string | undefined
+        description?: MarkdownOrString | null | undefined
+        summary?: MarkdownOrString | null | undefined
+      }
+    >
+    | undefined
 }
 
 export type ElementDataProps = {
@@ -153,9 +165,11 @@ type SlotProps = {
 }
 
 const Title = forwardRef<HTMLDivElement, SlotProps>((
-  { data: { title }, className, ...props },
+  { data, className, ...props },
   ref,
 ) => {
+  const locale = useDiagramLocale()
+  const localizedTitle = (data.locales && locale && data.locales[locale]?.title) || data.title
   return (
     <div
       {...props}
@@ -166,44 +180,48 @@ const Title = forwardRef<HTMLDivElement, SlotProps>((
       data-likec4-node-title=""
       ref={ref}
     >
-      {title}
+      {localizedTitle}
     </div>
   )
 })
 
-const Technology = forwardRef<HTMLDivElement, MergeExclusive<SlotProps, PropsWithChildren>>((
-  { data, children, className, ...props },
-  ref,
-) => {
-  const text = data?.technology ?? children
-  return isTruthy(text)
-    ? (
-      <div
-        {...props}
-        className={cx(
-          className,
-          'likec4-element-technology',
-        )}
-        data-likec4-node-technology=""
-        ref={ref}
-      >
-        {text}
-      </div>
-    )
-    : null
-})
+const Technology = forwardRef<HTMLDivElement, MergeExclusive<SlotProps, PropsWithChildren>>(
+  ({ data, children, className, ...props }, ref) => {
+    const locale = useDiagramLocale()
+    const localized = data?.locales?.[locale]?.technology
+    const text = localized || (data?.technology ?? children)
+    return isTruthy(text)
+      ? (
+        <div
+          {...props}
+          className={cx(
+            className,
+            'likec4-element-technology',
+          )}
+          data-likec4-node-technology=""
+          ref={ref}
+        >
+          {text}
+        </div>
+      )
+      : null
+  },
+)
 
 const Description = forwardRef<
   HTMLDivElement,
   SlotProps
 >((
-  { data: { description, style }, className, ...props },
+  { data: { description, locales, style }, className, ...props },
   ref,
 ) => {
-  if (!description) {
+  const locale = useDiagramLocale()
+  const localized = locales?.[locale]?.description ?? locales?.[locale]?.summary
+  const effectiveDesc = localized || description
+  if (!effectiveDesc) {
     return null
   }
-  const desc = RichText.from(description)
+  const desc = RichText.from(effectiveDesc)
   return (
     <Markdown
       {...props}

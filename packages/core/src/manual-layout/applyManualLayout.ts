@@ -532,6 +532,11 @@ function applyEdgesManualLayout(
       draft.navigateTo = next.navigateTo ?? null
       draft.tags = next.tags ? [...next.tags] : null
       draft.relations = [...next.relations]
+      if (next.locales) {
+        draft.locales = { ...next.locales }
+      } else {
+        delete draft.locales
+      }
 
       if (changed(edge.notes, next.notes)) {
         // If notes was added/removed - consider it drifted

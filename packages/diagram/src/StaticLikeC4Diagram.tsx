@@ -33,6 +33,7 @@ export type StaticLikeC4DiagramProps<A extends Any> = Pick<
   | 'renderNodes'
   | 'dynamicViewVariant'
   | 'where'
+  | 'locale'
 >
 
 /**

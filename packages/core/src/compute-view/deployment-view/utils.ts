@@ -221,6 +221,7 @@ function instanceToNodeSource<A extends AnyAux>(
     deploymentRef: instance.id,
     modelRef: element.id,
     notation: instance.notation,
+    locales: element.$element.locales,
   })
 }
 

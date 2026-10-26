@@ -15,10 +15,12 @@ import { IconExternalLink } from '@tabler/icons-react'
 import { useRouter } from '@tanstack/react-router'
 import { useHashHistory } from 'likec4:app-config'
 import { useState } from 'react'
+import { useI18n } from '../../../i18n'
 import { AlertLocalhost } from './AlertLocalhost'
 import { CopyButtonChild } from './CopyButtonChild'
 
 export const EmbedPanel = ({ diagram }: { diagram: DiagramView }) => {
+  const i18n = useI18n()
   const router = useRouter()
 
   const { colorScheme } = useMantineColorScheme()
@@ -53,7 +55,7 @@ export const EmbedPanel = ({ diagram }: { diagram: DiagramView }) => {
       {code.includes('http://localhost') && <AlertLocalhost />}
       <Box>
         <Text size="sm">
-          Embedded view is an iframe with a static diagram
+          {i18n.share.embeddedDesc}
         </Text>
       </Box>
       <Stack gap={'xs'}>

@@ -34,7 +34,7 @@ function pickRelationshipProps<A extends AnyAux>(relation: Relationship<A> | Dep
       title,
       description,
     }),
-    ...pick(relation, ['color', 'technology', 'head', 'line', 'tail', 'kind', 'navigateTo']),
+    ...pick(relation, ['color', 'technology', 'head', 'line', 'tail', 'kind', 'navigateTo', 'locales']),
   }
 }
 
@@ -49,6 +49,10 @@ export type MergedRelationshipProps<A extends AnyAux> = {
   tail?: RelationshipArrowType
   navigateTo?: aux.StrictViewId<A>
   tags?: NonEmptyArray<aux.Tag<A>>
+  locales?: Record<
+    string,
+    { label?: string; title?: string; description?: scalar.MarkdownOrString; technology?: string }
+  >
 }
 
 /**
@@ -124,6 +128,7 @@ export function mergePropsFromRelationships<A extends AnyAux>(
     color: only(allprops.color),
     line: only(allprops.line),
     navigateTo: only(allprops.navigateTo),
+    locales: only(relations.map(r => r.locales).filter(isTruthy)),
     ...isNonEmptyArray(tags) && { tags },
   })
 
@@ -136,6 +141,21 @@ export function mergePropsFromRelationships<A extends AnyAux>(
   }
 
   // If after merging title is still null, but technology is present, set title to technology
+  if (merged.locales) {
+    const normLocales: Record<
+      string,
+      { label?: string; title?: string; description?: scalar.MarkdownOrString; technology?: string }
+    > = {}
+    for (const [lang, val] of Object.entries(merged.locales)) {
+      const label = val.title ?? val.label
+      normLocales[lang] = {
+        ...val,
+        ...(label && { label }),
+      }
+    }
+    merged.locales = normLocales
+  }
+
   if (isNullish(merged.title) && isTruthy(merged.technology)) {
     merged.title = `[${merged.technology}]`
     delete merged.technology

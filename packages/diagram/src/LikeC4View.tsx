@@ -12,6 +12,7 @@ import { ErrorMessage } from './components/ViewNotFound'
 import { useOptionalLikeC4Model } from './hooks/useLikeC4Model'
 import { LikeC4Diagram } from './LikeC4Diagram'
 import type {
+  DiagramLocale,
   ElementIconRenderer,
   NodeRenderers,
   OverrideReactFlowProps,
@@ -72,6 +73,12 @@ export interface LikeC4ViewProps<A extends t.aux.Any = t.aux.UnknownLayouted> {
    * @default - determined by the user's system preferences.
    */
   colorScheme?: 'light' | 'dark' | undefined
+
+  /**
+   * Active UI locale for diagram controls and overlays.
+   * @default 'en'
+   */
+  locale?: DiagramLocale | undefined
 
   /**
    * LikeC4 views are using 'IBM Plex Sans' font.
@@ -507,6 +514,7 @@ export function LikeC4View<A extends t.aux.Any = t.aux.UnknownLayouted>({
         <Overlay onClose={closeBrowser}>
           <LikeC4Diagram
             view={browserView}
+            locale={props.locale}
             pannable
             zoomable
             background="dots"

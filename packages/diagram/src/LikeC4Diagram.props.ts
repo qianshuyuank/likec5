@@ -48,6 +48,8 @@ export type ElementIconRenderer = (props: ElementIconRendererProps) => ReactNode
 
 export type LikeC4ColorScheme = 'light' | 'dark'
 
+export type DiagramLocale = 'en' | 'zh'
+
 export type RelationshipBrowserScope = 'global' | 'view'
 
 export type OverrideReactFlowProps = Pick<
@@ -316,6 +318,12 @@ export interface LikeC4DiagramProperties<A extends Any = Unknown> {
    * @default 3
    */
   maxZoom?: number | undefined
+
+  /**
+   * Active UI locale for canvas controls, overlays, and details cards.
+   * @default 'en'
+   */
+  locale?: DiagramLocale | undefined
 }
 
 export type OpenSourceParams<A extends Any = Unknown> =

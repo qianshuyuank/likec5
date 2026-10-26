@@ -5,7 +5,7 @@
 //
 // oxlint-disable no-misused-spread
 // oxlint-disable no-misused-spread
-import { nonNullable } from '@likec4/core'
+import { nonNullable, RichText } from '@likec4/core'
 import type {
   Any,
   ComputedView,
@@ -53,6 +53,7 @@ import { DiagramFeatures, IconRenderer, IfEnabled } from '../../context'
 import { useCallbackRef, useUpdateEffect } from '../../hooks'
 import { useCurrentViewModel } from '../../hooks/useCurrentViewModel'
 import { useDiagram } from '../../hooks/useDiagram'
+import { useDiagramLocale, useDiagramTranslation } from '../../i18n'
 import type { OnNavigateTo } from '../../LikeC4Diagram.props'
 import { stopPropagation } from '../../utils'
 import * as styles from './ElementDetailsCard.css'
@@ -123,6 +124,7 @@ export function ElementDetailsCard({
   const windowWidth = windowSize.width || window.innerWidth || 1200,
     windowHeight = windowSize.height || window.innerHeight || 800
 
+  const t = useDiagramTranslation()
   const [activeTab, setActiveTab] = useSessionStorage<TabName>({
     key: subject.deployment ? 'likec4:deployment-details:active-tab' : 'likec4:element-details:active-tab',
     defaultValue: 'Properties',
@@ -225,6 +227,15 @@ export function ElementDetailsCard({
 
   const notation = nodeModel?.$node.notation ?? null
 
+  const locale = useDiagramLocale()
+  const elementLocales = logicalElement?.locales ?? (elementModel as any)?.locales ?? nodeModel?.locales
+  const localized = elementLocales?.[locale]?.title
+  const elementTitle = localized || elementModel.title
+  const localizedDesc = elementLocales?.[locale]?.description
+  const elementDescription = localizedDesc
+    ? RichText.from(localizedDesc)
+    : elementModel.description
+  const elementTechnology = elementLocales?.[locale]?.technology || elementModel.technology
   const elementIcon = IconRenderer({
     element: {
       id: elementModel.id,
@@ -247,6 +258,21 @@ export function ElementDetailsCard({
   useTimeoutEffect(() => {
     setOpened(true)
   }, 220)
+
+  const getTabLabel = (tab: TabName) => {
+    switch (tab) {
+      case 'Properties':
+        return t.elementDetails.tabProperties
+      case 'Relationships':
+        return t.elementDetails.tabRelationships
+      case 'Views':
+        return t.elementDetails.tabViews
+      case 'Structure':
+        return t.elementDetails.tabStructure
+      case 'Deployments':
+        return t.elementDetails.tabDeployments
+    }
+  }
 
   return (
     <m.dialog
@@ -325,11 +351,11 @@ export function ElementDetailsCard({
               >
                 {elementIcon}
                 <div style={{ minWidth: 0, overflow: 'hidden' }}>
-                  <Tooltip label={elementModel.title} openDelay={600} position="bottom-start">
+                  <Tooltip label={elementTitle} openDelay={600} position="bottom-start">
                     <Text
                       component={'div'}
                       className={styles.title}>
-                      {elementModel.title}
+                      {elementTitle}
                     </Text>
                   </Tooltip>
                   {notation && (
@@ -343,7 +369,7 @@ export function ElementDetailsCard({
             </HStack>
             <HStack alignItems="baseline" gap={'sm'} flexWrap="nowrap">
               <div>
-                <SmallLabel>kind</SmallLabel>
+                <SmallLabel>{t.elementDetails.kind}</SmallLabel>
                 <Badge
                   radius={'sm'}
                   size="sm"
@@ -361,7 +387,7 @@ export function ElementDetailsCard({
                 </Badge>
               </div>
               <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
-                <SmallLabel>tags</SmallLabel>
+                <SmallLabel>{t.elementDetails.tags}</SmallLabel>
                 <ElementTags
                   tags={elementModel.tags}
                   onClick={tag => diagram.openSearch(`#${tag}`)} />
@@ -383,7 +409,7 @@ export function ElementDetailsCard({
                   </ActionIcon>
                 )}
                 <IfEnabled feature="Vscode">
-                  <Tooltip label="Open source">
+                  <Tooltip label={t.elementDetails.openSource}>
                     <ActionIcon
                       size="lg"
                       variant="default"
@@ -401,7 +427,7 @@ export function ElementDetailsCard({
                   </Tooltip>
                 </IfEnabled>
                 {defaultView && (
-                  <Tooltip label="Open default view">
+                  <Tooltip label={t.elementDetails.openDefaultView}>
                     <ActionIcon
                       size="lg"
                       variant="default"
@@ -426,7 +452,7 @@ export function ElementDetailsCard({
               <TabsList>
                 {tabs.map(tab => (
                   <TabsTab key={tab} value={tab}>
-                    {tab}
+                    {getTabLabel(tab)}
                   </TabsTab>
                 ))}
               </TabsList>
@@ -436,25 +462,25 @@ export function ElementDetailsCard({
                   <Box className={styles.propertiesGrid} pt={'xs'}>
                     {hasSummary && (
                       <>
-                        <PropertyLabel>summary</PropertyLabel>
+                        <PropertyLabel>{t.elementDetails.summary}</PropertyLabel>
                         <Markdown value={elementModel.summary} />
                       </>
                     )}
                     <>
-                      <PropertyLabel>description</PropertyLabel>
+                      <PropertyLabel>{t.elementDetails.description}</PropertyLabel>
                       <Markdown
-                        value={elementModel.description}
-                        emptyText="no description"
+                        value={elementDescription}
+                        emptyText={t.elementDetails.noDescription}
                       />
                     </>
-                    {elementModel.technology && (
-                      <ElementProperty title="technology">
-                        {elementModel.technology}
+                    {elementTechnology && (
+                      <ElementProperty title={t.elementDetails.technology}>
+                        {elementTechnology}
                       </ElementProperty>
                     )}
                     {elementModel.links.length > 0 && (
                       <>
-                        <PropertyLabel>links</PropertyLabel>
+                        <PropertyLabel>{t.elementDetails.links}</PropertyLabel>
                         <HStack gap={'xs'} flexWrap="wrap">
                           {elementModel.links.map((link, i) => <Link key={i} value={link} />)}
                         </HStack>
@@ -462,7 +488,7 @@ export function ElementDetailsCard({
                     )}
                     {elementModel.hasMetadata() && <ElementMetadata value={elementModel.metadata} />}
                     {deploymentElement?.isInstance() && (
-                      <ElementProperty title="logical element">
+                      <ElementProperty title={t.elementDetails.logicalElement}>
                         <UnstyledButton
                           onClick={() =>
                             diagram.openNodeDetails({ type: 'element', element: deploymentElement.element.id })}>
@@ -495,7 +521,7 @@ export function ElementDetailsCard({
                   <Stack gap={'lg'}>
                     {viewsOf.length > 0 && (
                       <Box>
-                        <Divider label="views of the element (scoped)" />
+                        <Divider label={t.elementDetails.scopedViews} />
                         <Stack gap={'sm'}>
                           {viewsOf.map((view) => (
                             <ViewButton
@@ -510,8 +536,8 @@ export function ElementDetailsCard({
                       <Box>
                         <Divider
                           label={subject.deployment
-                            ? 'views including this deployment'
-                            : 'views including this element'} />
+                            ? t.elementDetails.viewsIncludingDeployment
+                            : t.elementDetails.viewsIncludingElement} />
                         <Stack gap={'sm'}>
                           {otherViews.map((view) => (
                             <ViewButton
@@ -561,6 +587,8 @@ const ViewButton = <A extends Any>({
   view: ComputedView<A> | DiagramView<A>
   onNavigateTo: OnNavigateTo<A>
 }) => {
+  const t = useDiagramTranslation()
+
   return (
     <UnstyledButton className={styles.viewButton} onClick={e => onNavigateTo(view.id, e)}>
       <Group gap={6} align="start" wrap="nowrap">
@@ -571,7 +599,7 @@ const ViewButton = <A extends Any>({
         </ThemeIcon>
         <Box>
           <Text component="div" className={styles.viewButtonTitle} lineClamp={1}>
-            {view.title || 'untitled'}
+            {view.title || t.elementDetails.untitled}
           </Text>
           {
             /* {view.description && (
@@ -623,12 +651,13 @@ function ElementMetadata({
 }: {
   value: NonNullable<Element['metadata']>
 }) {
+  const t = useDiagramTranslation()
   const metadataEntries = entries(metadata).sort(([a], [b]) => a.localeCompare(b))
 
   return (
     <MetadataProvider>
       <>
-        <PropertyLabel style={{ justifySelf: 'end', textAlign: 'right' }}>metadata</PropertyLabel>
+        <PropertyLabel style={{ justifySelf: 'end', textAlign: 'right' }}>{t.elementDetails.metadata}</PropertyLabel>
         <Box
           className={css({
             display: 'grid',

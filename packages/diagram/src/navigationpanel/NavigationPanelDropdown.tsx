@@ -45,6 +45,7 @@ import { viewIcon } from '../components/ViewIcon'
 import { type CurrentViewModel, ErrorBoundary, useOptionalCurrentViewModel } from '../custom'
 import { useOnDiagramEvent } from '../hooks/useDiagram'
 import { useLikeC4Model } from '../hooks/useLikeC4Model'
+import { useDiagramTranslation } from '../i18n'
 import { Tooltip } from './_common'
 import { ProjectsMenu } from './dropdown/ProjectsMenu'
 import {
@@ -532,6 +533,7 @@ function SearchInput(props: {
   defaultValue: string
   onChange: (value: string) => void
 }) {
+  const t = useDiagramTranslation()
   const [_value, handleChange] = useUncontrolled({
     ...props,
     finalValue: '',
@@ -543,7 +545,7 @@ function SearchInput(props: {
   return (
     <Input
       size="xs"
-      placeholder="Search by title or id"
+      placeholder={t.navigation.searchPlaceholder}
       variant="unstyled"
       height={26}
       value={_value}

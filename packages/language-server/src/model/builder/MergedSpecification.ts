@@ -153,6 +153,7 @@ export class MergedSpecification {
     technology,
     summary,
     metadata,
+    locales,
   }: ParsedAstElement): c4.Element | null => {
     try {
       const __kind = this.specs.elements[kind]
@@ -199,6 +200,7 @@ export class MergedSpecification {
         title,
         kind,
         id,
+        locales: locales && !isEmpty(locales) ? locales : undefined,
       })
     } catch (e) {
       logWarnError(e)

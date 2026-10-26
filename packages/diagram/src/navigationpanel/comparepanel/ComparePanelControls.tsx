@@ -2,6 +2,7 @@ import { Box, HStack } from '@likec4/styles/jsx'
 import { Divider as MantineDivider } from '@mantine/core'
 import { IconX } from '@tabler/icons-react'
 import { useDiagramCompareLayout } from '../../hooks/useDiagramCompareLayout'
+import { useDiagramTranslation } from '../../i18n'
 import { PanelActionIcon } from '../_common'
 import { CompareActionsMenu } from './CompareActionsMenu'
 import { LayoutTypeSwitcher } from './LayoutTypeSwitcher'
@@ -13,6 +14,7 @@ const Divider = MantineDivider.withProps({
 })
 
 export function ComparePanelControls() {
+  const t = useDiagramTranslation()
   const [ctx, { toggleCompare, switchLayout, resetManualLayout, applyLatestToManual }] = useDiagramCompareLayout()
   return (
     <>
@@ -22,7 +24,7 @@ export function ComparePanelControls() {
           color: 'likec4.panel.text',
           userSelect: 'none',
         }}>
-        Compare
+        {t.navigation.compare}
       </Box>
 
       <LayoutTypeSwitcher

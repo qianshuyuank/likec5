@@ -8,12 +8,14 @@ import { type ReactNode, forwardRef } from 'react'
 import { isTruthy } from 'remeda'
 import type { UndefinedOnPartialDeep } from 'type-fest'
 import type { BaseEdgePropsWithData } from '../../base/types'
+import { useDiagramLocale } from '../../i18n'
 
 type Data = UndefinedOnPartialDeep<
   Pick<
     DiagramEdge,
     | 'label'
     | 'technology'
+    | 'locales'
   >
 >
 
@@ -34,6 +36,7 @@ export const EdgeLabel = forwardRef<HTMLDivElement, EdgeLabelProps>((
       data: {
         label,
         technology,
+        locales,
         hovered: isHovered = false,
       },
       selected = false,
@@ -48,7 +51,12 @@ export const EdgeLabel = forwardRef<HTMLDivElement, EdgeLabelProps>((
   },
   ref,
 ) => {
-  const hasLabel = isTruthy(label) || isTruthy(technology)
+  const locale = useDiagramLocale()
+  const edgeLocales = locales
+  const localizedLabel = edgeLocales?.[locale]?.label ?? edgeLocales?.[locale]?.title
+  const displayLabel = localizedLabel || label
+  const displayTechnology = edgeLocales?.[locale]?.technology || technology
+  const hasLabel = isTruthy(displayLabel) || isTruthy(displayTechnology)
 
   return (
     <m.div
@@ -76,16 +84,16 @@ export const EdgeLabel = forwardRef<HTMLDivElement, EdgeLabelProps>((
       )}
       {hasLabel && (
         <Box className={'likec4-edge-label__contents'}>
-          {isTruthy(label) && (
+          {isTruthy(displayLabel) && (
             <Box
               lineClamp={5}
               className={'likec4-edge-label__text'}>
-              {label}
+              {displayLabel}
             </Box>
           )}
-          {isTruthy(technology) && (
+          {isTruthy(displayTechnology) && (
             <Box className={'likec4-edge-label__technology'}>
-              {'[ ' + technology + ' ]'}
+              {'[ ' + displayTechnology + ' ]'}
             </Box>
           )}
           {children}

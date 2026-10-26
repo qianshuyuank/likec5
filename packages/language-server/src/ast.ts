@@ -120,6 +120,7 @@ export interface ParsedAstElement {
   links?: c4.NonEmptyArray<c4.Link>
   style: ParsedElementStyle
   metadata?: { [key: string]: string | string[] }
+  locales?: Record<string, c4.ElementLocaleData>
 }
 
 export interface ParsedAstExtend {
@@ -128,6 +129,7 @@ export interface ParsedAstExtend {
   tags?: c4.NonEmptyArray<c4.Tag> | null
   links?: c4.NonEmptyArray<c4.Link> | null
   metadata?: { [key: string]: string | string[] }
+  locales?: Record<string, c4.ElementLocaleData>
 }
 
 export interface ParsedAstExtendRelation {
@@ -137,6 +139,7 @@ export interface ParsedAstExtendRelation {
   tags?: c4.NonEmptyArray<c4.Tag> | null
   links?: c4.NonEmptyArray<c4.Link> | null
   metadata?: { [key: string]: string | string[] }
+  locales?: Record<string, c4.ElementLocaleData>
 }
 
 export interface ParsedAstRelation {
@@ -158,6 +161,7 @@ export interface ParsedAstRelation {
   links?: c4.NonEmptyArray<c4.Link>
   navigateTo?: c4.ViewId
   metadata?: { [key: string]: string | string[] }
+  locales?: Record<string, c4.ElementLocaleData>
 }
 
 // Alias for easier refactoring

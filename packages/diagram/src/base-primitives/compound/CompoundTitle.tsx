@@ -7,6 +7,7 @@
 
 import type { Color, ComputedNodeStyle, NodeId } from '@likec4/core/types'
 import { IconRenderer } from '../../context/IconRenderer'
+import { useDiagramLocale } from '../../i18n'
 
 type RequiredData = {
   id: NodeId
@@ -14,6 +15,7 @@ type RequiredData = {
   color: Color
   style: ComputedNodeStyle
   icon?: string | null
+  locales?: Record<string, { title?: string | undefined }> | undefined
 }
 
 type CompoundTitleProps = {
@@ -27,6 +29,8 @@ type CompoundTitleProps = {
 }
 
 export function CompoundTitle({ data, 'aria-hidden': ariaHidden }: CompoundTitleProps) {
+  const locale = useDiagramLocale()
+  const localizedTitle = (data.locales && locale && data.locales[locale]?.title) || data.title
   const elementIcon = IconRenderer({
     element: data,
     className: 'likec4-compound-icon',
@@ -36,7 +40,7 @@ export function CompoundTitle({ data, 'aria-hidden': ariaHidden }: CompoundTitle
     <div className={'likec4-compound-title-container'} aria-hidden={ariaHidden}>
       {elementIcon}
       <div className={'likec4-compound-title'}>
-        {data.title}
+        {localizedTitle}
       </div>
     </div>
   )

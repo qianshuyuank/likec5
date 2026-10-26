@@ -57,6 +57,10 @@ export class NodeModel<A extends Any = Any, V extends ProcessedView<A> = $View<A
     return RichText.memoize(this, 'description', this.$node.description)
   }
 
+  get locales(): this['$node']['locales'] | undefined {
+    return this.$node.locales ?? this.element?.locales
+  }
+
   get technology(): string | null {
     return this.$node.technology ?? null
   }

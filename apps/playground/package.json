@@ -104,7 +104,7 @@
     "import-meta-resolve": "^4.2.0",
     "langium": "catalog:langium",
     "miniflare": "4.20260730.0",
-    "monaco-languageclient": "11.0.2",
+    "monaco-languageclient": "11.0.3",
     "motion": "catalog:react",
     "nanoid": "catalog:utils",
     "nanostores": "catalog:react",

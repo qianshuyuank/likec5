@@ -1,6 +1,9 @@
 model {
 
   customer = actor 'Cloud System Customer' 'Interacts with the system' {
+    title:zh '云平台客户'
+    technology:zh '终端用户'
+    description:zh '与云系统交互并使用核心功能'
     description '''
       Long description
 
@@ -25,6 +28,8 @@ model {
   }
 
   cloud = system 'Cloud System' {
+    title:zh '云端核心系统'
+    description:zh '为企业客户提供前沿技术交互的 SaaS 云平台'
     description '
       Our SaaS platfrom that allows
       customers to interact with
@@ -32,6 +37,9 @@ model {
     '
 
     ui = container 'Frontends' {
+      title:zh '前端应用中心'
+      technology:zh 'Web 应用 / React'
+      description:zh '云系统的所有用户端前端应用聚合'
       description '
         All the frontend applications
         of Cloud System
@@ -45,6 +53,9 @@ model {
     }
 
     legacy = container 'Cloud Legacy' {
+      title:zh '旧版云服务'
+      technology:zh '遗留架构'
+      description:zh '面向首批客户交付的 SaaS MVP 遗留版本'
       description '
         The legacy version of our SaaS
         MVP as was presented to the first customers
@@ -53,15 +64,21 @@ model {
     }
 
     next = container 'Cloud Next' {
+      title:zh '下一代云架构'
+      technology:zh '微服务集群'
+      description:zh '面向未来的全新云端服务核心架构'
       description 'Cloud Next is the next version of our cloud systems'
     }
 
     supportUser = actor 'Support User' {
+      title:zh '技术支持人员'
+      description:zh '客户成功与支持团队成员，拥有受限的运维权限'
       description '
         Support team member
         Has limited access to the system
       '
       -> customer 'helps with questions' {
+        title:zh '解答客户日常咨询'
         metadata {
           rps '1000'
         }
@@ -69,6 +86,7 @@ model {
     }
   }
   customer .uses cloud 'uses and pays' {
+    title:zh '使用服务并付费'
     navigateTo dynamic-view-1
   }
 

@@ -14,6 +14,7 @@ import { useSearch } from '@tanstack/react-router'
 import type { CSSProperties } from 'react'
 import { useRef } from 'react'
 import { useCurrentView, useTransparentBackground } from '../hooks'
+import { useActiveLocale } from '../i18n'
 import {
   computeExportPageLayout,
   EXPORT_DESCRIPTION_BODY_TOP_GAP,
@@ -132,6 +133,7 @@ export function ExportPage() {
  * Renders the measured export viewport for a loaded diagram.
  */
 function GuardedExportPage({ diagram, isJpeg }: { diagram: LayoutedView; isJpeg: boolean }) {
+  const activeLocale = useActiveLocale()
   const {
     padding = 20,
     download = false,
@@ -221,6 +223,7 @@ function GuardedExportPage({ diagram, isJpeg }: { diagram: LayoutedView; isJpeg:
           height: layout.height - layout.diagram.top,
         }}>
         <LikeC4Diagram
+          locale={activeLocale}
           view={diagram}
           fitView={false}
           fitViewPadding={{

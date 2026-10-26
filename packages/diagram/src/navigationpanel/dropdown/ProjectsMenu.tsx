@@ -5,6 +5,7 @@ import { IconChevronDown } from '@tabler/icons-react'
 import { memo } from 'react'
 import type { LikeC4ProjectsContext } from '../../context/LikeC4ProjectsContext'
 import { useLikeC4ProjectId, useLikeC4ProjectsContext } from '../../hooks/useLikeC4Project'
+import { useDiagramTranslation } from '../../i18n'
 
 export const ProjectsMenu = memo(_ => {
   const { projects, onProjectChange } = useLikeC4ProjectsContext()
@@ -20,6 +21,7 @@ function WithProjectsMenu({
   onProjectChange,
 }: LikeC4ProjectsContext) {
   const projectId = useLikeC4ProjectId()
+  const t = useDiagramTranslation()
   return (
     <HStack gap="1" alignItems="baseline">
       <Box
@@ -29,7 +31,7 @@ function WithProjectsMenu({
           color: 'text.dimmed',
           userSelect: 'none',
         }}>
-        Project
+        {t.navigation.project}
       </Box>
       <Menu
         withinPortal={false} // if we render menu in portal, NavigationPanelDropdown receives onMouseLeave event

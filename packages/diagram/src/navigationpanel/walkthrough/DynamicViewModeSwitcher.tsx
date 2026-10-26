@@ -2,23 +2,26 @@ import type { DynamicViewDisplayVariant } from '@likec4/core'
 import { css } from '@likec4/styles/css'
 import { type SegmentedControlItem, SegmentedControl } from '@mantine/core'
 import { m } from 'motion/react'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { selectDiagramContext, useDiagram, useDiagramSelector } from '../../hooks'
-
-const dynamicViewModes = [
-  {
-    value: 'diagram',
-    label: 'Diagram',
-  },
-  {
-    value: 'sequence',
-    label: 'Sequence',
-  },
-] satisfies SegmentedControlItem<DynamicViewDisplayVariant>[]
+import { useDiagramTranslation } from '../../i18n'
 
 const selectDynamicViewVariant = selectDiagramContext(c => c.dynamicViewVariant)
 
 export function DynamicViewModeSwitcher() {
+  const t = useDiagramTranslation()
+  const dynamicViewModes = useMemo(() =>
+    [
+      {
+        value: 'diagram' as const,
+        label: t.navigation.diagramMode,
+      },
+      {
+        value: 'sequence' as const,
+        label: t.navigation.sequenceMode,
+      },
+    ] satisfies SegmentedControlItem<DynamicViewDisplayVariant>[], [t])
+
   const value = useDiagramSelector(selectDynamicViewVariant)
   const diagram = useDiagram()
 

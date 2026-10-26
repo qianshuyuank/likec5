@@ -23,6 +23,7 @@ import { IconSearch } from '@tabler/icons-react'
 import { type ReactNode, memo, useRef } from 'react'
 import { keys } from 'remeda'
 import { useLikeC4Model } from '../../hooks/useLikeC4Model'
+import { useDiagramTranslation } from '../../i18n'
 import { useSearchContext } from '../SearchContext'
 import * as css from './styles.css'
 import { focusToFirstFoundElement, moveFocusToSearchInput, stopAndPrevent } from './utils'
@@ -34,6 +35,7 @@ function startingWithKind(search: string) {
 const SEARCH_PREFIXES = ['#', 'kind:']
 
 export const LikeC4SearchInput = memo(() => {
+  const t = useDiagramTranslation()
   const searchCtx = useSearchContext()
   const likec4model = useLikeC4Model()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -162,7 +164,7 @@ export const LikeC4SearchInput = memo(() => {
       <ComboboxTarget>
         <Input
           ref={useMergedRef(inputRef, ref)}
-          placeholder="Search by title, description or start with # or kind:"
+          placeholder={t.search.placeholder}
           autoFocus
           data-autofocus
           data-likec4-search-input

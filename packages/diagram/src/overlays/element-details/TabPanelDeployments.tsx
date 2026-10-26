@@ -5,6 +5,7 @@ import { IconInfoCircle, IconTarget, IconZoomScan } from '@tabler/icons-react'
 import { type ReactNode, memo, useEffect, useMemo } from 'react'
 import { useDiagram } from '../../hooks/useDiagram'
 import { useLikeC4Model } from '../../hooks/useLikeC4Model'
+import { useDiagramTranslation } from '../../i18n'
 import { stopPropagation } from '../../utils'
 import * as css from './TabPanelDeployments.css'
 
@@ -44,6 +45,7 @@ const DeployedInstanceRenderer = (
   },
 ) => {
   const diagram = useDiagram()
+  const t = useDiagramTranslation()
   const currentViewId = diagram.currentView.id
   const views = [...instance.views()]
 
@@ -57,7 +59,7 @@ const DeployedInstanceRenderer = (
         <Box onClick={stopPropagation} pos={'relative'} data-no-transform flex={0}>
           {views.length === 0 && (
             <Button size="compact-xs" variant="transparent" color="gray" disabled>
-              no views
+              {t.elementDetails.noViews}
             </Button>
           )}
           {views.length > 0 && (
@@ -76,7 +78,7 @@ const DeployedInstanceRenderer = (
             >
               <Menu.Target>
                 <Button size="compact-xs" variant="subtle" color="gray">
-                  {views.length} view{views.length > 1 ? 's' : ''}
+                  {t.elementDetails.viewsCount(views.length)}
                 </Button>
               </Menu.Target>
 

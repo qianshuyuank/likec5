@@ -130,6 +130,10 @@ export class ElementModel<A extends AnyAux = Any> implements WithTags<A>, WithMe
     return RichText.memoize(this, 'description', preferDescription(this.$element))
   }
 
+  get locales(): this['$element']['locales'] | undefined {
+    return this.$element.locales
+  }
+
   get technology(): string | null {
     return this.$element.technology ?? null
   }

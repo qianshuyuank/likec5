@@ -7,6 +7,7 @@
 import { pickViewBounds, StaticLikeC4Diagram } from '@likec4/diagram'
 import { useSearch } from '@tanstack/react-router'
 import { useCurrentProject, useCurrentView, useTransparentBackground } from '../hooks'
+import { useActiveLocale } from '../i18n'
 import { useRelationshipBrowserScope } from '../relationship-browser/scope'
 
 export function EmbedPage() {
@@ -17,6 +18,7 @@ export function EmbedPage() {
     strict: false,
   })
   const project = useCurrentProject()
+  const activeLocale = useActiveLocale()
   const [relationshipBrowserScope] = useRelationshipBrowserScope(project)
   const [diagram] = useCurrentView()
 
@@ -45,6 +47,7 @@ export function EmbedPage() {
       }}
     >
       <StaticLikeC4Diagram
+        locale={activeLocale}
         view={diagram}
         fitView={true}
         background={'transparent'}

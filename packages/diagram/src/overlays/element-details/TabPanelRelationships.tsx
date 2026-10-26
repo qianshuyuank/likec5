@@ -6,6 +6,7 @@ import { useSelector } from '@xstate/react'
 import { useCallback } from 'react'
 import { unique } from 'remeda'
 import { useDiagram } from '../../hooks'
+import { useDiagramTranslation } from '../../i18n'
 import { RelationshipsBrowser } from '../relationships-browser/RelationshipsBrowser'
 import { useElementDetailsActorRef } from './actorContext'
 import * as css from './TabPanelRelationships.css'
@@ -31,6 +32,8 @@ export function TabPanelRelationships({
   element,
 }: RelationshipsTabPanelProps) {
   const diagram = useDiagram()
+  const t = useDiagramTranslation()
+
   const delailsActor = useElementDetailsActorRef()
   const relationshipsBrowserActor = useSelector(
     delailsActor,
@@ -54,7 +57,7 @@ export function TabPanelRelationships({
           <Box>
             <Group gap={8} mb={4} wrap="nowrap">
               <RelationshipsStat
-                title="incoming"
+                title={t.relationshipsBrowser.incoming}
                 total={incoming.length}
                 included={incomingInView.length}
               />
@@ -66,7 +69,7 @@ export function TabPanelRelationships({
                 <IconArrowRight style={{ width: 16 }} />
               </ThemeIcon>
               <RelationshipsStat
-                title="outgoing"
+                title={t.relationshipsBrowser.outgoing}
                 total={outgoing.length}
                 included={outgoingInView.length}
               />
@@ -81,7 +84,7 @@ export function TabPanelRelationships({
                 style={{ cursor: 'pointer' }}>
                 <IconInfoCircle style={{ width: 14 }} />
                 <Text fz="sm">
-                  {notIncludedRelations} relationship{notIncludedRelations > 1 ? 's are' : ' is'} hidden
+                  {t.relationshipsBrowser.hiddenRelationships(notIncludedRelations)}
                 </Text>
               </Group>
             </Tooltip>

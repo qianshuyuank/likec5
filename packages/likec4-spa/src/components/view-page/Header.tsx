@@ -26,6 +26,7 @@ import { AnimatePresence } from 'motion/react'
 import { memo, useCallback, useState } from 'react'
 import { enabledWebappExportFormats } from '../../export-formats'
 import { useCurrentProject, useCurrentViewId } from '../../hooks'
+import { LanguageToggle, useI18n } from '../../i18n'
 import { ColorSchemeToggle } from '../ColorSchemeToggle'
 import { NavigationPanel } from '../NavigationPanel'
 import { SelectProject } from './SelectProject'
@@ -33,6 +34,7 @@ import { ShareModal } from './ShareModal'
 import { useHeaderVisible } from './state'
 
 export const Header = memo(() => {
+  const i18n = useI18n()
   const projects = useLikeC4Projects()
   const isReactDiagramRoute = useMatches({
     select(matches) {
@@ -69,7 +71,7 @@ export const Header = memo(() => {
                         fz={isTablet ? 'sm' : 'xs'}
                         leftSection={<IconShare size={14} />}
                         onClick={open}>
-                        Share
+                        {i18n.header.share}
                       </Button>
                     )}
                     <ExportButton />
@@ -83,11 +85,12 @@ export const Header = memo(() => {
                     fz={isTablet ? 'sm' : 'xs'}
                     variant="subtle"
                     color="gray">
-                    Back to diagram
+                    {i18n.header.backToDiagram}
                   </Button>
                 )}
 
               <Divider orientation="vertical" visibleFrom="md" />
+              <LanguageToggle />
               <ColorSchemeToggle />
             </NavigationPanel.Body>
           </NavigationPanel.Root>
@@ -110,6 +113,7 @@ const enableJpegDownload = <P extends Record<string, unknown>>(params: P): P & {
 })
 
 function ExportButton() {
+  const i18n = useI18n()
   const isInsideProject = useMatches({
     select: matches => matches.some(({ routeId }) => routeId === '/project/$projectId'),
   })
@@ -147,12 +151,12 @@ function ExportButton() {
           px={'sm'}
           rightSection={<IconChevronDown opacity={0.5} size={14} />}
           visibleFrom="md">
-          Export
+          {i18n.header.export}
         </Button>
       </MenuTarget>
 
       <MenuDropdown>
-        <MenuLabel>Current view</MenuLabel>
+        <MenuLabel>{i18n.export.currentView}</MenuLabel>
         {enabledFormats.has('png') && (
           <MenuItem
             renderRoot={(props) => (
@@ -163,7 +167,7 @@ function ExportButton() {
                 {...props} />
             )}
           >
-            Export as .png
+            {i18n.export.png}
           </MenuItem>
         )}
         {enabledFormats.has('jpg') && (
@@ -176,7 +180,7 @@ function ExportButton() {
                 {...props} />
             )}
           >
-            Export as .jpg
+            {i18n.export.jpg}
           </MenuItem>
         )}
         {enabledFormats.has('dot') && (
@@ -188,7 +192,7 @@ function ExportButton() {
                 {...props} />
             )}
           >
-            Export as .dot
+            {i18n.export.dot}
           </MenuItem>
         )}
         {enabledFormats.has('d2') && (
@@ -200,7 +204,7 @@ function ExportButton() {
                 {...props} />
             )}
           >
-            Export as .d2
+            {i18n.export.d2}
           </MenuItem>
         )}
         {enabledFormats.has('mmd') && (
@@ -211,7 +215,7 @@ function ExportButton() {
                 search
                 {...props} />
             )}>
-            Export as .mmd
+            {i18n.export.mmd}
           </MenuItem>
         )}
         {enabledFormats.has('puml') && (
@@ -222,11 +226,13 @@ function ExportButton() {
                 search
                 {...props} />
             )}>
-            Export as .puml
+            {i18n.export.puml}
           </MenuItem>
         )}
         {enabledFormats.has('drawio') && (
-          <MenuItem disabled={isDrawioLoading} onClick={handleDrawioExport}>Export to Draw.io</MenuItem>
+          <MenuItem disabled={isDrawioLoading} onClick={handleDrawioExport}>
+            {isDrawioLoading ? i18n.export.loading : i18n.export.drawio}
+          </MenuItem>
         )}
         {
           /*

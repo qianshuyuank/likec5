@@ -87,6 +87,10 @@ export class RelationshipModel<A extends Any = Any>
     return this.$relationship.title
   }
 
+  get locales(): this['$relationship']['locales'] | undefined {
+    return this.$relationship.locales
+  }
+
   get technology(): string | null {
     if (isEmptyish(this.$relationship.technology)) {
       const spec = this.kind && this.model.specification.relationships[this.kind]

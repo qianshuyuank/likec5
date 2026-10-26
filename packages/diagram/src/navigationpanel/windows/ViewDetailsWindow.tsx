@@ -30,6 +30,7 @@ import { useCurrentViewModel, useUpdateEffect } from '../../hooks'
 import { useCallbackRef } from '../../hooks/useCallbackRef'
 import { useDiagram } from '../../hooks/useDiagram'
 import { useDiagramCompareLayout } from '../../hooks/useDiagramCompareLayout'
+import { useDiagramTranslation } from '../../i18n'
 import { stopPropagation } from '../../utils'
 import { PanelActionIcon } from '../_common'
 
@@ -44,6 +45,7 @@ const SectionHeader = styled('div', {
 })
 
 export function ViewDetailsWindow() {
+  const t = useDiagramTranslation()
   const viewModel = useCurrentViewModel()
   const diagram = useDiagram()
   const { enableReadOnly } = useEnabledFeatures()
@@ -103,7 +105,7 @@ export function ViewDetailsWindow() {
         <DataList size="xs" gap={'sm'} orientation="horizontal" labelWidth={50}>
           {viewModel.hasManualLayout && (
             <DataList.Item>
-              <DataList.ItemLabel>Layout</DataList.ItemLabel>
+              <DataList.ItemLabel>{t.viewDetails.layout}</DataList.ItemLabel>
               <DataList.ItemValue>
                 <ManualLayoutState />
               </DataList.ItemValue>
@@ -111,7 +113,7 @@ export function ViewDetailsWindow() {
           )}
           {alltags.length > 0 && (
             <DataList.Item>
-              <DataList.ItemLabel>Tags</DataList.ItemLabel>
+              <DataList.ItemLabel>{t.viewDetails.tags}</DataList.ItemLabel>
               <DataList.ItemValue>
                 {(tags.length > 0 || !enableReadOnly) && (
                   <EditableTags
@@ -122,20 +124,20 @@ export function ViewDetailsWindow() {
                 )}
                 {(tags.length === 0 && enableReadOnly) && (
                   <Txt size="xs" color={'text.non-essential'}>
-                    No tags
+                    {t.viewDetails.noTags}
                   </Txt>
                 )}
               </DataList.ItemValue>
             </DataList.Item>
           )}
           <DataList.Item>
-            <DataList.ItemLabel>Links</DataList.ItemLabel>
+            <DataList.ItemLabel>{t.viewDetails.links}</DataList.ItemLabel>
             <DataList.ItemValue className="nodrag">
               <HStack gap="xxs" flexWrap="wrap">
                 {links.map((link, i) => <Link key={`${i}-${link.url}`} value={link} />)}
                 {links.length === 0 && (
                   <Txt size="xs" color={'text.non-essential'}>
-                    No links
+                    {t.viewDetails.noLinks}
                   </Txt>
                 )}
               </HStack>
@@ -143,14 +145,14 @@ export function ViewDetailsWindow() {
           </DataList.Item>
         </DataList>
         <Divider
-          label={<SectionHeader>Description</SectionHeader>}
+          label={<SectionHeader>{t.viewDetails.description}</SectionHeader>}
           labelPosition="left"
           mt="xxs"
           mb={'xs'} />
       </VStack>
       {description.isEmpty && (
         <EmptyBox flex="1" m="1">
-          No description
+          {t.viewDetails.noDescription}
         </EmptyBox>
       )}
       {description.nonEmpty && (
@@ -269,6 +271,7 @@ function EditableTags({
   readOnly: boolean
   onChange: (tags: types.scalar.Tag[]) => void
 }) {
+  const t = useDiagramTranslation()
   const [isApplying, toggleApplying] = useToggle()
 
   const [value, handleChange] = useUncontrolled<string[]>({
@@ -342,7 +345,7 @@ function EditableTags({
           withinPortal: false,
           offset: 2,
         }}
-        placeholder={canAdd ? 'Add tag...' : ''}
+        placeholder={canAdd ? t.viewDetails.addTagPlaceholder : ''}
         renderPill={({ value, onRemove }) => (
           <Pill
             size="xs"
@@ -371,7 +374,7 @@ function EditableTags({
             size="compact-xs"
             onClick={commitChanges}
           >
-            Apply
+            {t.viewDetails.apply}
           </Button>
           <Button
             disabled={isApplying}
@@ -380,7 +383,7 @@ function EditableTags({
             size="compact-xs"
             onClick={revert}
           >
-            Revert
+            {t.viewDetails.revert}
           </Button>
         </HStack>
       )}
@@ -389,6 +392,7 @@ function EditableTags({
 }
 
 function ManualLayoutState() {
+  const t = useDiagramTranslation()
   const isMounted = useIsMounted()
   const [ctx, ops] = useDiagramCompareLayout()
 
@@ -447,7 +451,7 @@ function ManualLayoutState() {
           disabled={!ctx.hasEditor}
           rightSection={ctx.hasEditor ? <IconChevronDown size={12} stroke={3} opacity={0.7} /> : undefined}
         >
-          {ctx.isEnabled ? 'out of sync' : 'manual'}
+          {ctx.isEnabled ? t.viewDetails.outOfSync : t.viewDetails.manual}
         </Button>
       </Menu.Target>
 
@@ -460,18 +464,13 @@ function ManualLayoutState() {
             <Tooltip
               onClick={stopPropagation}
               position="right-start"
-              label={
-                <>
-                  Reset manual layout adjustments and delete snapshot.<br />
-                  You can undo this action.
-                </>
-              }
+              label={t.viewDetails.resetLayoutTooltip}
             >
               <IconInfoCircle size={14} stroke={1.7} opacity={0.5} />
             </Tooltip>
           )}
         >
-          Reset layout
+          {t.viewDetails.resetLayout}
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

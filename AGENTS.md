@@ -321,3 +321,22 @@ Syncing rules:
 - After porting, run tests in both packages because `utils.spec.ts` exists in each.
 - Typecheck `packages/layouts` after porting.
 - Never import `@likec4/layouts` from `packages/diagram`.
+
+## Agent skills
+
+### Language / 语言规范
+
+除代码、系统报错信息以及计算机领域专业词汇（例如 Git, API, Port 等）外，在与用户交流以及编写文档（包括任务、报告、Issue、PRD 等）时，必须尽量使用中文（简体）进行表述。
+
+### Issue tracker
+
+GitHub Issues via `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Canonical roles mapped 1:1 to standard labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context with root `CONTEXT.md` and architecture decisions in `docs/adrs/`. See `docs/agents/domain.md`.
+

@@ -798,4 +798,38 @@ export class BaseParser {
       technology,
     })
   }
+
+  parseLocales(props: ReadonlyArray<ast.ElementStringProperty>): Record<string, c4.ElementLocaleData> | undefined {
+    const locales: Record<
+      string,
+      { title?: string; summary?: c4.MarkdownOrString; description?: c4.MarkdownOrString; technology?: string }
+    > = {}
+    for (const p of props) {
+      if (p.lang) {
+        locales[p.lang] ??= {}
+        if (p.key === 'title') {
+          const parsed = removeIndent(parseMarkdownAsString(p.value))
+          if (parsed) {
+            locales[p.lang]!.title = parsed
+          }
+        } else if (p.key === 'description') {
+          const parsed = this.parseMarkdownOrString(p.value)
+          if (parsed) {
+            locales[p.lang]!.description = parsed
+          }
+        } else if (p.key === 'summary') {
+          const parsed = this.parseMarkdownOrString(p.value)
+          if (parsed) {
+            locales[p.lang]!.summary = parsed
+          }
+        } else if (p.key === 'technology') {
+          const parsed = toSingleLine(removeIndent(parseMarkdownAsString(p.value)))
+          if (parsed) {
+            locales[p.lang]!.technology = parsed
+          }
+        }
+      }
+    }
+    return isEmpty(locales) ? undefined : locales
+  }
 }

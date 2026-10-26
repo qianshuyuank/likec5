@@ -16,6 +16,7 @@ import { memo, useEffect, useRef, useState } from 'react'
 import type { SnapshotFrom } from 'xstate'
 import { BaseXYFlow } from '../../base/BaseXYFlow'
 import { useCallbackRef } from '../../hooks/useCallbackRef'
+import { useDiagramTranslation } from '../../i18n'
 import type { RelationshipsBrowserTypes } from './_types'
 import type { RelationshipsBrowserActorRef } from './actor'
 import { CompoundNode, ElementNode, EmptyNode, RelationshipEdge } from './custom'
@@ -341,6 +342,7 @@ export function buildRelationshipUrl(subjectId: string, scope: 'global' | 'view'
  * Note: Clipboard API requires HTTPS or localhost. This is a browser security restriction, not a code issue.
  */
 const CopyLinkButton = ({ subjectId, scope }: CopyLinkButtonProps) => {
+  const t = useDiagramTranslation()
   const clipboard = useClipboard({ timeout: 2000 })
   const [copyError, setCopyError] = useState(false)
   const errorTimeoutRef = useRef<number | null>(null)
@@ -399,18 +401,18 @@ const CopyLinkButton = ({ subjectId, scope }: CopyLinkButtonProps) => {
     if (clipboard.copied) {
       return {
         icon: <IconCheck />,
-        tooltip: 'Link copied!',
+        tooltip: t.relationshipsBrowser.urlCopied,
       }
     }
     if (copyError) {
       return {
         icon: <IconAlertTriangle />,
-        tooltip: 'Copy failed - Clipboard requires HTTPS or localhost',
+        tooltip: t.relationshipsBrowser.copyFailed,
       }
     }
     return {
       icon: <IconLink />,
-      tooltip: 'Copy link to this relationship view',
+      tooltip: t.relationshipsBrowser.copyUrl,
     }
   }
 

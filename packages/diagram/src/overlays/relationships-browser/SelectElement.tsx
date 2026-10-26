@@ -26,6 +26,7 @@ import { memo, useEffect, useRef } from 'react'
 import { useDiagramEventHandlers } from '../../context/DiagramEventHandlers'
 import { useLikeC4ElementsTree } from '../../hooks/useLikeC4ElementsTree'
 import { useLikeC4Model } from '../../hooks/useLikeC4Model'
+import { useDiagramTranslation } from '../../i18n'
 import type { RelationshipsBrowserSnapshot } from './actor'
 import { useRelationshipsBrowser, useRelationshipsBrowserState } from './hooks'
 import * as classes from './SelectElement.css'
@@ -43,6 +44,7 @@ const selector2 = (state: RelationshipsBrowserSnapshot) => {
 }
 
 export const SelectElement = memo(() => {
+  const t = useDiagramTranslation()
   const browser = useRelationshipsBrowser()
   const { onRelationshipBrowserScopeChange } = useDiagramEventHandlers()
   const {
@@ -78,7 +80,7 @@ export const SelectElement = memo(() => {
             fz={'xs'}
             fw={'500'}
             style={{ whiteSpace: 'nowrap', userSelect: 'none' }}>
-            Relationships of
+            {t.relationshipsBrowser.relationshipsOf}
           </Box>
           <Box pos={'relative'}>
             <Popover
@@ -182,7 +184,7 @@ export const SelectElement = memo(() => {
                 c: 'dimmed',
               }}
               style={{ whiteSpace: 'nowrap', userSelect: 'none' }}>
-              Scope
+              {t.relationshipsBrowser.scope}
             </Box>
           )}
           <div>
@@ -222,9 +224,9 @@ export const SelectElement = memo(() => {
                   onRelationshipBrowserScopeChange?.(nextScope)
                 }}
                 data={[
-                  { label: 'Global', value: 'global' },
+                  { label: t.relationshipsBrowser.global, value: 'global' },
                   {
-                    label: <span>Current view</span>,
+                    label: <span>{t.relationshipsBrowser.currentView}</span>,
                     value: 'view',
                     disabled: !subjectExistsInScope,
                   },

@@ -4,9 +4,11 @@ import { UnstyledButton } from '@mantine/core'
 import { IconLock, IconLockOpen2 } from '@tabler/icons-react'
 import { m } from 'motion/react'
 import { useDiagram } from '../../hooks/useDiagram'
+import { useDiagramTranslation } from '../../i18n'
 
 export function ToggleReadonly({ disabled, isReadOnly }: { disabled: boolean; isReadOnly: boolean }) {
   const diagram = useDiagram()
+  const t = useDiagramTranslation()
 
   return (
     <UnstyledButton
@@ -48,7 +50,7 @@ export function ToggleReadonly({ disabled, isReadOnly }: { disabled: boolean; is
             opacity: '0.9',
           })}
         >
-          Edit
+          {t.navigation.edit}
         </m.div>
       )}
     </UnstyledButton>

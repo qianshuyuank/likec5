@@ -82,6 +82,13 @@ export function ensureSizes<S extends PartialSizes>(
   }
 }
 
+export interface ElementLocaleData {
+  readonly title?: string
+  readonly summary?: scalar.MarkdownOrString
+  readonly description?: scalar.MarkdownOrString
+  readonly technology?: string
+}
+
 // dprint-ignore
 export interface Element<A extends AnyAux = AnyAux>
   extends
@@ -95,6 +102,7 @@ export interface Element<A extends AnyAux = AnyAux>
   readonly kind: aux.ElementKind<A>
   readonly title: string
   readonly style: ElementStyle
+  readonly locales?: Readonly<Record<string, ElementLocaleData>>
 }
 
 // export const DefaultLineStyle: RelationshipLineType = 'dashed'
@@ -102,12 +110,14 @@ export interface Element<A extends AnyAux = AnyAux>
 // export const DefaultRelationshipColor: ThemeColor = 'gray'
 
 // dprint-ignore
+export interface RelationshipLocaleData {
+  readonly title?: string
+  readonly technology?: string
+  readonly description?: scalar.MarkdownOrString
+}
+
 export interface AbstractRelationship<A extends AnyAux>
-  extends
-    aux.WithDescriptionAndTech,
-    aux.WithOptionalTags<A>,
-    aux.WithOptionalLinks,
-    aux.WithMetadata<A>
+  extends aux.WithDescriptionAndTech, aux.WithOptionalTags<A>, aux.WithOptionalLinks, aux.WithMetadata<A>
 {
   readonly id: scalar.RelationId
   readonly title?: string | null
@@ -118,6 +128,7 @@ export interface AbstractRelationship<A extends AnyAux>
   readonly tail?: RelationshipArrowType
   // Link to dynamic view
   readonly navigateTo?: aux.StrictViewId<A>
+  readonly locales?: Readonly<Record<string, RelationshipLocaleData>>
 }
 
 /**

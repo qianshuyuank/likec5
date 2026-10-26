@@ -32,6 +32,15 @@ export type {
 } from './LikeC4Diagram.props'
 
 export {
+  type DiagramLocale,
+  type DiagramTranslations,
+  LikeC4LocaleContext,
+  LikeC4LocaleProvider,
+  useDiagramLocale,
+  useDiagramTranslation,
+} from './i18n'
+
+export {
   LikeC4ModelProvider,
   type LikeC4ModelProviderProps,
 } from './LikeC4ModelProvider'

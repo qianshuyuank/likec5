@@ -12,6 +12,7 @@ import { useCallbackRef, useWindowEvent } from '@mantine/hooks'
 import { IconX } from '@tabler/icons-react'
 import * as m from 'motion/react-m'
 import { useLikeC4Model } from '../../hooks/useLikeC4Model'
+import { useDiagramTranslation } from '../../i18n'
 import { useSearchContext } from '../SearchContext'
 import * as styles from './styles.css'
 import { ViewButton } from './ViewsColum'
@@ -21,6 +22,7 @@ export function PickView({
 }: {
   elementFqn: Fqn
 }) {
+  const t = useDiagramTranslation()
   const ctx = useSearchContext()
   const currentViewId = ctx.currentViewId ?? ''
   const element = useLikeC4Model().element(elementFqn)
@@ -93,7 +95,7 @@ export function PickView({
           className={styles.pickview}
           data-likec4-search-views>
           <Group px="sm" py="md" justify="space-between">
-            <Title order={2} lh={1}>Select view</Title>
+            <Title order={2} lh={1}>{t.search.selectView}</Title>
             <ActionIcon
               size={'md'}
               variant="default"
@@ -107,7 +109,7 @@ export function PickView({
           <ScrollAreaAutosize mah={'calc(100vh - 110px)'} type="never">
             {scoped.length > 0 && (
               <Stack gap={'sm'} px={'sm'} className={styles.pickviewGroup}>
-                <Title order={6} c={'dimmed'}>scoped views of the element</Title>
+                <Title order={6} c={'dimmed'}>{t.search.scopedViews}</Title>
                 {scoped.map((view, i) => (
                   <ViewButton
                     key={view.id}

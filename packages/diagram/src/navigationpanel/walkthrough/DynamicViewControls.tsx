@@ -9,6 +9,7 @@ import * as m from 'motion/react-m'
 import { forwardRef } from 'react'
 import { useEnabledFeatures } from '../../context/DiagramFeatures'
 import { useDiagram } from '../../hooks/useDiagram'
+import { useDiagramTranslation } from '../../i18n'
 import { Tooltip } from '../_common'
 import { useNavigationActor } from '../hooks'
 import { DynamicViewModeSwitcher } from './DynamicViewModeSwitcher'
@@ -36,11 +37,12 @@ export const TriggerWalkthroughButton = forwardRef<HTMLButtonElement, ButtonProp
 ))
 
 export function StartWalkthroughButton() {
+  const t = useDiagramTranslation()
   const { enableCompareWithLatest } = useEnabledFeatures()
   const diagram = useDiagram()
   const actor = useNavigationActor()
 
-  let tooltipLabel = 'Start Dynamic View Walkthrough'
+  let tooltipLabel = t.navigation.startWalkthroughTooltip
   switch (true) {
     // case !enableReadOnly:
     //   tooltipLabel = 'Walkthrough not available in Edit mode'
@@ -80,7 +82,7 @@ export function StartWalkthroughButton() {
         }}
         rightSection={<IconPlayerPlayFilled size={10} />}
       >
-        Start
+        {t.navigation.start}
       </TriggerWalkthroughButton>
     </Tooltip>
   )
