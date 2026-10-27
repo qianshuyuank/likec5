@@ -110,4 +110,30 @@ export const en: DiagramTranslations = {
     selectView: 'Select view',
     scopedViews: 'scoped views of the element',
   },
+  toolbar: {
+    shapes: {
+      rectangle: 'Rectangle',
+      person: 'Person',
+      browser: 'Browser',
+      mobile: 'Mobile',
+      cylinder: 'Cylinder',
+      storage: 'Storage',
+      queue: 'Queue',
+      bucket: 'Bucket',
+      document: 'Document',
+      component: 'Component',
+      agent: 'Agent',
+    },
+    borderStyles: {
+      solid: 'Solid',
+      dashed: 'Dashed',
+      dotted: 'Dotted',
+      none: 'None',
+    },
+    tooltips: {
+      browseRelationships: 'Browse relationships',
+      openSource: 'Open source',
+    },
+    opacity: 'Opacity',
+  },
 }

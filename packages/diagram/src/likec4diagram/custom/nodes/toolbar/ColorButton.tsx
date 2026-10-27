@@ -21,6 +21,7 @@ import type { MouseEvent as ReactMouseEvent } from 'react'
 import { useState } from 'react'
 import { keys } from 'remeda'
 import { useLikeC4Styles } from '../../../../hooks/useLikeC4Styles'
+import { useDiagramTranslation } from '../../../../i18n'
 import { type ColorKey, type OnStyleChange, type ThemeColorKey, SemanticColors } from './types'
 
 type ColorButtonProps = Omit<PopoverProps, 'onChange'> & {
@@ -40,6 +41,7 @@ export function ColorButton({
   ...props
 }: ColorButtonProps) {
   const { theme } = useLikeC4Styles()
+  const t = useDiagramTranslation()
   return (
     <Popover
       clickOutsideEvents={['pointerdown', 'mousedown', 'click']}
@@ -66,7 +68,7 @@ export function ColorButton({
         {isOpacityEditable && (
           <>
             <Space h={'xs'} />
-            <Divider label="opacity" labelPosition="left" />
+            <Divider label={t.toolbar.opacity} labelPosition="left" />
             <Space h={'xs'} />
             <OpacityOption
               elementOpacity={elementOpacity}

@@ -3,6 +3,7 @@ import type { Fqn } from '@likec4/core/types'
 import { Button, Menu, MenuDropdown, MenuItem, MenuTarget } from '@mantine/core'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { useEnabledFeatures } from '../../../../context/DiagramFeatures'
+import { useDiagramTranslation } from '../../../../i18n'
 import { stopPropagation } from '../../../../utils/xyflow'
 import type { Types } from '../../../types'
 import { BorderStyleOption, BrowseRelationshipsButton, GoToSourceButton } from './_shared'
@@ -97,6 +98,7 @@ function ElementShapeButton({
   elementShape: ElementShape
   onChange: OnStyleChange
 }) {
+  const t = useDiagramTranslation()
   return (
     <Menu
       openDelay={300}
@@ -126,7 +128,7 @@ function ElementShapeButton({
           py={2}
           rightSection={<IconSelector size={12} />}
         >
-          {elementShape}
+          {t.toolbar.shapes[elementShape] ?? elementShape}
         </Button>
       </MenuTarget>
       <MenuDropdown
@@ -145,7 +147,7 @@ function ElementShapeButton({
               onChange({ shape })
             }}
           >
-            {shape}
+            {t.toolbar.shapes[shape] ?? shape}
           </MenuItem>
         ))}
       </MenuDropdown>

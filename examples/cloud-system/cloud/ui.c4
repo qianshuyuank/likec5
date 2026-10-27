@@ -4,6 +4,9 @@ model {
 
     dashboard = app {
       title 'Customer Dashboard'
+      title:zh '客户控制台'
+      technology:zh 'Next.js / Vercel'
+      description:zh '基于 Next.js 构建的企业客户管理控制台，托管于 Vercel'
       description 'Nextjs application, hosted on Vercel'
       style {
         shape browser
@@ -11,12 +14,14 @@ model {
     }
 
     dashboard -> cloud.graphql.myAccount "fetches via GraphQL" {
+      title:zh "通过 GraphQL 拉取账户数据"
       metadata {
         bandwith 'medium'
         security 'approved'
       }
     }
     dashboard -> cloud.graphql.updateAccount "mutates via GraphQL"{
+      title:zh "通过 GraphQL 变更数据"
        metadata {
         bandwith 'low'
         security 'tbd'
@@ -32,6 +37,9 @@ model {
 
     mobile = mobileApp {
       title 'Customer Mobile App'
+      title:zh '移动端客户端'
+      technology:zh '原生 iOS / Swift'
+      description:zh '面向消费级终端用户的原生 iOS 应用，使用 Swift 编写'
       description '
         Native iOS Application
         written in Swift
@@ -45,10 +53,16 @@ model {
 
     supportPanel = app {
       title 'Support Panel'
+      title:zh '技术支持后台'
+      technology:zh 'Retool 仪表盘'
+      description:zh '面向内部运维与客户支持团队的低代码运维平台'
       description 'Retoool Application'
       icon tech:astro
-      -> cloud.next.graphql "updates data in case of a support request"
+      -> cloud.next.graphql "updates data in case of a support request" {
+        title:zh "处理支持工单时更新业务数据"
+      }
       -> amazon.aurora.tblUsers "reads users from the database" {
+        title:zh "从数据库读取用户信息"
         navigateTo cloud-to-amazon
         technology 'postgres-rest'
       }
@@ -56,9 +70,15 @@ model {
 
   }
 
-  customer -> dashboard "opens in the browser vit HTTPS"
-  customer -> mobile "opens on a mobile device"
-  cloud.supportUser -> supportPanel "accesses via browser with encrypted VPN connection"
+  customer -> dashboard "opens in the browser vit HTTPS" {
+    title:zh "通过 HTTPS 访问控制台"
+  }
+  customer -> mobile "opens on a mobile device" {
+    title:zh "在移动设备上启动应用"
+  }
+  cloud.supportUser -> supportPanel "accesses via browser with encrypted VPN connection" {
+    title:zh "通过加密 VPN 访问支持后台"
+  }
 
 }
 

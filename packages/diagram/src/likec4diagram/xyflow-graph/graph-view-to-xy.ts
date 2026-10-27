@@ -153,6 +153,7 @@ export function graphViewToXY(opts: {
           modelFqn,
           deploymentFqn,
           navigateTo: node.navigateTo ?? null,
+          locales: node.locales,
         },
       } satisfies Types.GraphElementNode,
     )

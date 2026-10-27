@@ -61,6 +61,7 @@ export namespace Types {
       isMultiple?: boolean | undefined
       icon: string | null
       drifts: NonEmptyReadonlyArray<DiagramNodeDriftReason> | null
+      locales?: DiagramNode['locales']
     }
   >
 
@@ -182,6 +183,7 @@ export namespace Types {
       depth: number
       icon?: IconUrl
       drifts: NonEmptyReadonlyArray<DiagramNodeDriftReason> | null
+      locales?: DiagramNode['locales']
     }
   >
 
@@ -305,6 +307,7 @@ export namespace Types {
        * (backward compatibility)
        */
       stepnum?: number
+      locales?: DiagramEdge['locales']
     }
   >
 
@@ -339,6 +342,7 @@ export namespace Types {
       labelBBox: BBox
       isLabelCustomized?: boolean | undefined
       controlPoints: XYPosition[] | undefined | null
+      locales?: DiagramEdge['locales']
     }
   >
 

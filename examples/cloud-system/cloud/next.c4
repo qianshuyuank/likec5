@@ -3,6 +3,8 @@ model {
   extend amazon.rds {
     aurora = component 'Aurora' {
       #db
+      title:zh '极光数据库 (Aurora)'
+      description:zh '高性能托管关系型数据库服务 (Aurora RDS)'
       description 'Aurora RDS'
       style {
         icon tech:mysql
@@ -12,6 +14,8 @@ model {
 
       tblUsers = table 'Users Table' {
         #next
+        title:zh '用户数据表'
+        description:zh '存储注册用户信息，包含身份认证提供方的关联引用'
         description '
           Table with registered users.
           Contains references to Identity provider.
@@ -28,12 +32,18 @@ model {
 
     backend = app 'Backend V2' {
       #api
+      title:zh '后端服务 V2'
+      technology:zh 'NestJS 微服务'
+      description:zh '面向下一代云核心打造的高并发服务后端'
       icon tech:nestjs
       description 'The next version of backend'
     }
 
     graphql = component 'GraphQL' {
       #next, #api
+      title:zh 'GraphQL 网关'
+      technology:zh 'Apollo Server'
+      description:zh '为前端及移动端聚合数据的 GraphQL 接口层'
       description '
         GraphQL API for the backend
         Uses Apollo Server
@@ -41,28 +51,41 @@ model {
       icon tech:graphql
 
       gqlQuery myAccount {
+        title:zh '查询我的账户'
+        description:zh '获取当前认证用户的账户资产与配置详情'
         description '
           Returns the account of the authenticated user
         '
 
-        -> backend 'reads'
+        -> backend 'reads' {
+          title:zh '读取'
+        }
       }
       gqlMutation updateAccount {
+        title:zh '变更账户配置'
+        description:zh '普通用户仅能更新本人账户，技术支持人员可管理任何账户'
         description '
           If requested by customer, updates only its own account
           Support user updates any account
         '
 
-        -> backend 'writes'
+        -> backend 'writes' {
+          title:zh '写入'
+        }
       }
     }
 
     backend -> aurora.tblUsers 'reads/writes' {
+      title:zh '读写数据'
       navigateTo cloud-to-amazon
     }
-    backend -> cloud.legacy.backend.services 'calls legacy'
+    backend -> cloud.legacy.backend.services 'calls legacy' {
+      title:zh '调用遗留服务'
+    }
 
     events = component 'Events Manager' {
+      title:zh '事件管理器'
+      description:zh '统一事件中心，负责异步消息分发与管道投递'
       -> amazon.queue1 {
         title 'publishes events'
         technology 'JSON'
@@ -75,10 +98,12 @@ model {
       }
     }
     events -> amazon.sqs 'publishes events' {
+      title:zh '发布事件到 SQS'
       navigateTo cloud-to-amazon
     }
 
     backend -> events "triggers" {
+      title:zh "触发事件"
       technology "REST"
     }
   }

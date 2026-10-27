@@ -3,6 +3,8 @@
 // Copyright (c) 2023-2026 Denis Davydkov
 // Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 
+import type { BorderStyle, ElementShape } from '@likec4/core'
+
 export type DiagramLocale = 'en' | 'zh'
 
 export interface DiagramTranslations {
@@ -109,5 +111,14 @@ export interface DiagramTranslations {
     placeholder: string
     selectView: string
     scopedViews: string
+  }
+  toolbar: {
+    shapes: Record<ElementShape, string>
+    borderStyles: Record<BorderStyle, string>
+    tooltips: {
+      browseRelationships: string
+      openSource: string
+    }
+    opacity: string
   }
 }

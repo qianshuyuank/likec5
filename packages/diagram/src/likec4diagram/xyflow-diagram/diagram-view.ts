@@ -207,6 +207,7 @@ export function diagramToXY(opts: {
         drifts: node.drifts ?? null,
         notes: node.notes,
         viewLayoutDir,
+        locales: node.locales,
       } satisfies Types.CompoundNodeData
 
       switch (true) {
@@ -279,6 +280,7 @@ export function diagramToXY(opts: {
       isMultiple: node.style?.multiple ?? false,
       drifts: node.drifts ?? null,
       viewLayoutDir,
+      locales: node.locales,
     } satisfies Types.LeafNodeData
 
     switch (true) {
@@ -354,6 +356,7 @@ export function diagramToXY(opts: {
         tail: edge.tail ?? 'none',
         astPath: edge.astPath,
         drifts: edge.drifts ?? null,
+        locales: edge.locales,
         ...(isDynamic && isStepPath(edge.id) && {
           stepnum: stepnum++,
         }),

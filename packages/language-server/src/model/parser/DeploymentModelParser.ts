@@ -122,6 +122,7 @@ export function DeploymentModelParser<TBase extends WithExpressionV2>(B: TBase) 
         links,
         style,
         metadata,
+        locales,
       })
     }
 
@@ -136,15 +137,22 @@ export function DeploymentModelParser<TBase extends WithExpressionV2>(B: TBase) 
       const style = this.parseElementStyle(astNode.body?.props)
       const metadata = this.getMetadata(astNode.body?.props.find(ast.isMetadataProperty))
 
+      const elementStringProps = pipe(
+        astNode.body?.props ?? [],
+        filter(isValid),
+        filter(ast.isElementStringProperty),
+      )
+
       const bodyProps = {
         ...pipe(
-          astNode.body?.props ?? [],
-          filter(isValid),
-          filter(ast.isElementStringProperty),
+          elementStringProps,
+          filter(p => !p.lang),
           mapToObj(p => [p.key, p.value as ast.MarkdownOrString | undefined]),
         ),
         ...this.descriptionFileOf(astNode.body?.props),
       }
+
+      const locales = this.parseLocales(elementStringProps)
 
       const baseProps = this.parseBaseProps(bodyProps, {
         title: astNode.title,
@@ -161,6 +169,7 @@ export function DeploymentModelParser<TBase extends WithExpressionV2>(B: TBase) 
         ...baseProps,
         style,
         metadata,
+        locales,
       })
     }
 

@@ -2,7 +2,7 @@ import { isTruthy } from 'remeda'
 import type * as aux from './_aux'
 import type { AnyAux, Unknown } from './_aux'
 import type { FqnRef } from './fqnRef'
-import type { AbstractRelationship, ElementStyle } from './model-logical'
+import type { AbstractRelationship, ElementLocaleData, ElementStyle } from './model-logical'
 
 // dprint-ignore
 export interface DeploymentNode<A extends AnyAux = Unknown>
@@ -19,6 +19,7 @@ export interface DeploymentNode<A extends AnyAux = Unknown>
   readonly kind: aux.DeploymentKind<A>
   readonly title: string
   readonly style: ElementStyle
+  readonly locales?: Readonly<Record<string, ElementLocaleData>>
 }
 
 // dprint-ignore
@@ -39,6 +40,7 @@ export interface DeployedInstance<A extends AnyAux = Unknown>
   readonly element: aux.StrictFqn<A>
   readonly title?: string
   readonly style: ElementStyle
+  readonly locales?: Readonly<Record<string, ElementLocaleData>>
 }
 
 export type DeploymentElement<A extends AnyAux = Unknown> = DeploymentNode<A> | DeployedInstance<A>

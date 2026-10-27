@@ -27,37 +27,50 @@ deployment {
 
   environment prod {
     title 'Production environment'
+    title:zh '生产环境集群'
     technology 'OpenTofu'
+    technology:zh 'OpenTofu 自动化编排'
 
     region eu 'EU' {
+      title:zh '欧洲区域 (EU)'
+      description:zh '欧洲主数据中心核心区域'
 
       zone zone1 {
+        title:zh '可用区 1 (Zone 1)'
+        description:zh '欧洲主数据中心核心可用区'
         node server1 {
+          title:zh '前端与接口服务器 1'
           instanceOf cloud.ui
           instanceOf cloud.next.graphql
         }
         node server2 {
+          title:zh '前端与接口服务器 2'
           instanceOf cloud.ui
           instanceOf cloud.next.graphql
         }
         node server3 {
+          title:zh '核心业务与事件主机 3'
           instanceOf cloud.next.backend
           // instanceOf cloud.legacy
           instanceOf cloud.next.events
         }
         node server4 {
+          title:zh '高可用计算节点 4'
           instanceOf cloud.next.backend
           //instanceOf cloud.legacy
         }
 
         group amazon 'Amazon' {
+          title:zh '亚马逊托管服务 (Amazon)'
           instanceOf amazon.rds
         }
 
         server4.backend -> server3.events 'reuse' {
+          title:zh '事件通道复用'
 
         }
         server3.events -> server4.backend 'reuse' {
+          title:zh '事件通道复用'
           style {
             color red
           }
@@ -65,26 +78,33 @@ deployment {
       }
     }
     region us 'US' {
+      title:zh '美洲区域 (US)'
+      description:zh '美洲灾备与就近访问数据中心'
       node serv1 {
+        title:zh '边缘接入节点 1'
         instanceOf cloud.ui
         instanceOf cloud.next.graphql
         // instanceOf cloud.next.events
       }
       node serv2 {
+        title:zh '边缘计算节点 2'
         instanceOf cloud.next.backend
       }
       group amazon 'Amazon' {
+        title:zh '亚马逊托管服务 (Amazon)'
         instanceOf amazon.rds
         instanceOf amazon.sqs
       }
     }
 
     eu.rds -> us.rds 'replicates' {
+      title:zh '跨地域数据同步复制'
       style {
         color green
       }
     }
     us.rds -> eu.rds 'replicates' {
+      title:zh '跨地域数据同步复制'
       style {
         color green
       }

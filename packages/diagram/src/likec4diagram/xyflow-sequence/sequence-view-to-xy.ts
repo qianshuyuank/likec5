@@ -152,6 +152,7 @@ function toCompoundArea(
       viewLayoutDir: 'LR',
       // Ignore notes for Compound nodes
       notes: undefined,
+      locales: node.locales,
     },
     zIndex: SeqZIndex.compound,
     position: {
@@ -253,6 +254,7 @@ function toSeqActorNode(
       ports: ports as Writable<typeof ports>,
       drifts: actor.drifts ?? null,
       viewLayoutDir: 'LR',
+      locales: actor.locales,
     },
     deletable: false,
     zIndex: SeqZIndex.actor,
@@ -297,6 +299,7 @@ function toSeqStepEdge(
       tail: edge.tail ?? 'none',
       astPath: edge.astPath,
       drifts: edge.drifts ?? null,
+      locales: edge.locales,
       parentFlow: parent ?
         {
           id: parent.id,

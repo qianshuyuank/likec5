@@ -110,4 +110,30 @@ export const zh: DiagramTranslations = {
     selectView: '选择视图',
     scopedViews: '此元素的专属视图',
   },
+  toolbar: {
+    shapes: {
+      rectangle: '矩形',
+      person: '人员/角色',
+      browser: '浏览器',
+      mobile: '移动端',
+      cylinder: '数据库/圆柱体',
+      storage: '存储介质',
+      queue: '消息队列',
+      bucket: '存储桶',
+      document: '文档',
+      component: '组件',
+      agent: '智能体',
+    },
+    borderStyles: {
+      solid: '实线',
+      dashed: '虚线',
+      dotted: '点线',
+      none: '无',
+    },
+    tooltips: {
+      browseRelationships: '浏览关联关系',
+      openSource: '打开源代码',
+    },
+    opacity: '不透明度',
+  },
 }

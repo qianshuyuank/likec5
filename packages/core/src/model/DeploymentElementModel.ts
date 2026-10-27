@@ -95,6 +95,10 @@ abstract class AbstractDeploymentElementModel<A extends Any> implements WithTags
    * Long description of the element.
    * Falls back to summary if description is not provided.
    */
+  get locales(): this['$node']['locales'] | undefined {
+    return this.$node.locales
+  }
+
   get description(): RichTextOrEmpty {
     return RichText.memoize(this, 'description', preferDescription(this.$node))
   }

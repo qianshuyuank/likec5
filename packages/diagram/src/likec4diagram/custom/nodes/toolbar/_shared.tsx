@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import type { MergeExclusive } from 'type-fest'
 import { useDiagramEventHandlers } from '../../../../context'
 import { useDiagram } from '../../../../hooks/useDiagram'
+import { useDiagramTranslation } from '../../../../i18n'
 import type { OnStyleChange } from './types'
 
 export const Tooltip = MantineTooltip.withProps({
@@ -20,8 +21,9 @@ export const Tooltip = MantineTooltip.withProps({
 
 export function BrowseRelationshipsButton({ fqn }: { fqn: Fqn }) {
   const diagram = useDiagram()
+  const t = useDiagramTranslation()
   return (
-    <Tooltip label={'Browse relationships'}>
+    <Tooltip label={t.toolbar.tooltips.browseRelationships}>
       <ActionIcon
         size={'md'}
         variant="subtle"
@@ -43,11 +45,12 @@ export function BrowseRelationshipsButton({ fqn }: { fqn: Fqn }) {
 
 export function GoToSourceButton(props: MergeExclusive<{ elementId: Fqn }, { deploymentId: DeploymentFqn }>) {
   const { onOpenSource } = useDiagramEventHandlers()
+  const t = useDiagramTranslation()
   if (!onOpenSource) return null
   // const diagramApi = useDiagramStoreApi()
   // const portalProps = useMantinePortalProps()
   return (
-    <Tooltip label={'Open source'}>
+    <Tooltip label={t.toolbar.tooltips.openSource}>
       <ActionIcon
         size={'md'}
         variant="subtle"
@@ -77,6 +80,7 @@ export function BorderStyleOption({
   elementBorderStyle: BorderStyle | undefined
   onChange: OnStyleChange
 }) {
+  const t = useDiagramTranslation()
   const [value, setValue] = useState(elementBorderStyle)
   useEffect(() => {
     setValue(elementBorderStyle)
@@ -101,10 +105,10 @@ export function BorderStyleOption({
         },
       }}
       data={[
-        { label: 'Solid', value: 'solid' },
-        { label: 'Dashed', value: 'dashed' },
-        { label: 'Dotted', value: 'dotted' },
-        { label: 'None', value: 'none' },
+        { label: t.toolbar.borderStyles.solid, value: 'solid' },
+        { label: t.toolbar.borderStyles.dashed, value: 'dashed' },
+        { label: t.toolbar.borderStyles.dotted, value: 'dotted' },
+        { label: t.toolbar.borderStyles.none, value: 'none' },
       ]}
     />
   )

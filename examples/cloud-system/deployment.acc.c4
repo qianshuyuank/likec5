@@ -3,15 +3,20 @@
 deployment {
 
   environment acc {
+    title:zh '准生产验收环境'
+    technology:zh '测试集群'
+    description:zh '面向准生产验证与集成测试的环境'
 
     region eu 'EU' {
 
       node server1 {
+        title:zh '集成测试节点 1'
         instanceOf cloud.ui
         instanceOf cloud.next.graphql
         instanceOf cloud.next.backend
       }
       node server2 {
+        title:zh '集成测试节点 2'
         instanceOf cloud.ui
         instanceOf cloud.next.graphql
         instanceOf cloud.next.backend
@@ -28,6 +33,7 @@ deployment {
     }
     region us 'US' {
        node serv1 {
+        title:zh '集成测试节点 (美洲)'
           instanceOf cloud.ui
           instanceOf cloud.next.graphql
           instanceOf cloud.next.backend

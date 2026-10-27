@@ -190,6 +190,7 @@ function deploymentNodeToNodeSource<A extends AnyAux>(
     description: preferSummary(el.$node) ?? undefined,
     tags: [...el.tags],
     style: omit(el.style, ['icon', 'shape', 'color']),
+    locales: el.$node.locales ?? onlyOneInstance?.element.$element.locales,
   })
 }
 
@@ -221,7 +222,7 @@ function instanceToNodeSource<A extends AnyAux>(
     deploymentRef: instance.id,
     modelRef: element.id,
     notation: instance.notation,
-    locales: element.$element.locales,
+    locales: instance.locales ?? element.$element.locales,
   })
 }
 

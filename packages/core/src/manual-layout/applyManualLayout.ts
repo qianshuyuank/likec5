@@ -42,6 +42,11 @@ function autoApplyMetaAndStyles(
   draft.navigateTo = next.navigateTo ?? null
   draft.links = next.links ? [...next.links] : null
   draft.tags = [...next.tags]
+  if (next.locales) {
+    draft.locales = { ...next.locales }
+  } else {
+    delete draft.locales
+  }
 
   // We consider the following properties as potentially drifting
   // - size

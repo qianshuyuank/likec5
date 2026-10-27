@@ -27,6 +27,8 @@ import { SidebarDrawer } from '../../components/sidebar/Drawer'
 import { SidebarDrawerOps } from '../../components/sidebar/state'
 import { filterLandingPageViews } from '../../filterLandingPageViews'
 import { useCurrentProject, useLikeC4Views } from '../../hooks'
+import { useActiveLocale } from '../../i18n'
+import { LanguageToggle } from '../../i18n/LanguageToggle'
 import * as styles from './index.css'
 
 export const Route = createFileRoute('/_single/single-index')({
@@ -72,6 +74,7 @@ function RouteComponent() {
           <NavigationPanel.Body>
             <div style={{ display: 'flex', alignItems: 'center', minHeight: 36 }}>
               <ColorSchemeToggle />
+              <LanguageToggle />
             </div>
           </NavigationPanel.Body>
         </NavigationPanel.Root>
@@ -90,6 +93,7 @@ function RouteComponent() {
 }
 
 function ViewCard({ view }: { view: DiagramView }) {
+  const activeLocale = useActiveLocale()
   const [visible, setVisible] = useState(false)
   const { ref, inViewport } = useInViewport()
 
@@ -117,6 +121,7 @@ function ViewCard({ view }: { view: DiagramView }) {
               fitView
               fitViewPadding={'4px'}
               reduceGraphics
+              locale={activeLocale}
             />
           )}
         </Box>
